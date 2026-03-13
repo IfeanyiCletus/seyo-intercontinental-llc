@@ -42,11 +42,7 @@ export default function Footer(props) {
         <View style={{ alignItems: 'center' }}>
           <Text style={styles.text}>Head Office</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Ionicons
-              name="location-outline"
-              size={32}
-              color={Colors.white01}
-            />
+            <Ionicons name="location-outline" size={32} color={Colors.gray} />
             <View style={{ marginLeft: 10 }}>
               <Text style={styles.text1}>1910 Thomes Ave</Text>
               <Text style={styles.text1}>Cheyenne, WY 82001</Text>
@@ -122,7 +118,7 @@ const styles = StyleSheet.create({
   text1: {
     fontFamily: 'light',
     fontSize: 16,
-    color: Colors.white01,
+    color: Colors.gray,
     lineHeight: 22,
   },
   text: {
@@ -141,13 +137,13 @@ const styles = StyleSheet.create({
   text3: {
     fontFamily: 'light',
     fontSize: 16,
-    color: Colors.white01,
+    color: Colors.gray,
     lineHeight: 18,
   },
   text4: {
     fontFamily: 'light',
     fontSize: 16,
-    color: Colors.white01,
+    color: Colors.gray,
     lineHeight: 18,
   },
   border: {
