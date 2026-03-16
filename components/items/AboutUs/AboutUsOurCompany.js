@@ -16,7 +16,7 @@ import ThemedText from '../ThemedText';
 import WhyAMMattersView from '../WhyAMMattersView';
 
 const windowWidth = Dimensions.get('window').width;
-
+let divider = windowWidth > 1280 ? 4 : 2.5;
 export default function AboutUsOurCompany(props) {
   const theme = useColorScheme();
 
@@ -28,7 +28,7 @@ export default function AboutUsOurCompany(props) {
       source={require('../../../assets/images/screen1440/gradient-1.png')}
       style={styles.container}
     >
-      <View3 style={{ width: windowWidth / 4 }}>
+      <View3 style={{ width: windowWidth / divider }}>
         <View
           style={[
             styles.container1,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: '30%',
+    width: windowWidth > 1280 ? '30%' : '45%',
     alignItems: 'center',
     borderWidth: 1,
   },

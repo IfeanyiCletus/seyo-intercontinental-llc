@@ -16,6 +16,7 @@ import ThemedText from '../ThemedText';
 import WhyAMMattersView from '../WhyAMMattersView';
 
 const windowWidth = Dimensions.get('window').width;
+const divider = windowWidth > 1280 ? 3.5 : 3;
 
 export default function WhatWeOfferTraining(props) {
   const theme = useColorScheme();
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: '10%',
+    width: windowWidth > 1280 ? '10%' : '12%',
     alignItems: 'center',
     borderWidth: 1,
     flexDirection: 'row',
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
   container3: {
     padding: 20,
     borderRadius: 20,
-    width: windowWidth / 3.5,
+    width: windowWidth / divider,
     marginBottom: 70,
     shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 12 },

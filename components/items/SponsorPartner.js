@@ -50,7 +50,7 @@ export default function SponsorPartner(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: '65%',
+    width: windowWidth > 1280 ? '65%' : '85%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,

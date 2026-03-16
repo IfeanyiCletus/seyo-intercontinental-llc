@@ -15,7 +15,7 @@ import ThemedView from '../ThemedView';
 import ThemedText from '../ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
-
+const divider = windowWidth > 1280 ? 4 : 2.5;
 export default function AboutUsHeadOffice(props) {
   const theme = useColorScheme();
 
@@ -32,9 +32,10 @@ export default function AboutUsHeadOffice(props) {
           source={require('../../../assets/images/screen1440/about-us-map.png')}
           width={652}
           height={576}
+          style={windowWidth <= 1280 && { marginLeft: 40 }}
         />
       </View3>
-      <View3 style={{ width: windowWidth / 4 }}>
+      <View3 style={{ width: windowWidth / divider }}>
         <View
           style={[
             styles.container1,
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     height: 860,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: windowWidth > 1280 ? 'center' : 'flex-start',
     flexDirection: 'row',
   },
   container1: {
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: '30%',
+    width: windowWidth > 1280 ? '30%' : '40%',
     alignItems: 'center',
     borderWidth: 1,
   },
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
   },
   container3: {
     backgroundColor: Colors.white05,
-    width: '60%',
+    width: '45%',
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: Colors.black,
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderRadius: 10,
     paddingVertical: 20,
-    marginHorizontal: 10,
+    marginHorizontal: 15,
   },
   iconContainer: {
     backgroundColor: Colors.primary,

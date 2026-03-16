@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 18,
     elevation: 10,
-    width: '65%',
+    width: windowWidth >= 1281 ? '65%' : '75%',
   },
   container2: {
     flexDirection: 'row',

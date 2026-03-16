@@ -16,7 +16,7 @@ import ThemedText from '../ThemedText';
 import WhyAMMattersView from '../WhyAMMattersView';
 
 const windowWidth = Dimensions.get('window').width;
-
+const divider = windowWidth > 1280 ? 3 : 2.5;
 export default function WhatWeOfferGuidance(props) {
   const theme = useColorScheme();
 
@@ -35,7 +35,7 @@ export default function WhatWeOfferGuidance(props) {
           height={576}
         />
       </View3>
-      <View3 style={{ width: windowWidth / 3 }}>
+      <View3 style={{ width: windowWidth / divider }}>
         <View style={styles.container1}>
           <Ionicons name="briefcase-outline" size={22} color={Colors.red} />
           <Text style={[styles.text, { marginLeft: 20 }]}>Service 02</Text>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: '30%',
+    width: windowWidth > 1280 ? '30%' : '40%',
     alignItems: 'center',
     borderWidth: 1,
     flexDirection: 'row',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontFamily: 'bold',
-    fontSize: 45,
+    fontSize: windowWidth > 1280 ? 45 : 40,
     lineHeight: 45,
   },
   text2: {

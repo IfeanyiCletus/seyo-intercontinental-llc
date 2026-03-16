@@ -14,7 +14,7 @@ import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
-
+const divider = windowWidth > 1280 ? 5 : 4;
 export default function WhatDrivesUsView(props) {
   const theme = useColorScheme();
   let View2 = theme === 'dark' ? ThemedView : ImageBackground;
@@ -33,7 +33,7 @@ export default function WhatDrivesUsView(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.primary2,
-    width: windowWidth / 5,
+    width: windowWidth / divider,
     padding: 20,
     borderRadius: 10,
     borderWidth: 1,

@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: '30%',
+    width: windowWidth > 1280 ? '30%' : '35%',
     alignItems: 'center',
     borderWidth: 1,
     flexDirection: 'row',

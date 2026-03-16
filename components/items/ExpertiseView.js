@@ -14,11 +14,12 @@ import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
-
+let divider = windowWidth >= 1281 ? 6 : 5;
 export default function ExpertiseView(props) {
   const theme = useColorScheme();
   let View2 = theme === 'dark' ? ThemedView : ImageBackground;
   let View3 = theme === 'dark' ? ThemedView : View;
+
   return (
     <View3
       style={[
@@ -44,7 +45,11 @@ export default function ExpertiseView(props) {
             size={24}
             color={Colors.primary}
           />
-          <ThemedText style={styles.text1}>{props.text1}</ThemedText>
+          <ThemedText
+            style={windowWidth >= 1440 ? styles.text1 : styles.text1A}
+          >
+            {props.text1}
+          </ThemedText>
         </View3>
         <View3 style={styles.container1}>
           <Ionicons
@@ -52,7 +57,11 @@ export default function ExpertiseView(props) {
             size={24}
             color={Colors.primary}
           />
-          <ThemedText style={styles.text1}>{props.text2}</ThemedText>
+          <ThemedText
+            style={windowWidth >= 1440 ? styles.text1 : styles.text1A}
+          >
+            {props.text2}
+          </ThemedText>
         </View3>
         <View3 style={styles.container1}>
           <Ionicons
@@ -60,14 +69,20 @@ export default function ExpertiseView(props) {
             size={24}
             color={Colors.primary}
           />
-          <ThemedText style={styles.text1}>{props.text3}</ThemedText>
+          <ThemedText
+            style={windowWidth >= 1440 ? styles.text1 : styles.text1A}
+          >
+            {props.text3}
+          </ThemedText>
         </View3>
       </View3>
       <Pressable
         style={{ marginTop: 50, marginBottom: 20 }}
         onPress={props.onPress}
       >
-        <ThemedText style={styles.text2}>{`Learn More >`}</ThemedText>
+        <ThemedText
+          style={windowWidth >= 1440 ? styles.text2 : styles.text2A}
+        >{`Learn More >`}</ThemedText>
       </Pressable>
     </View3>
   );
@@ -81,7 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 20,
     marginRight: 30,
-    width: windowWidth / 7.5,
+    width: windowWidth / divider,
   },
   container1: {
     flexDirection: 'row',
@@ -91,7 +106,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 22,
+    fontSize: windowWidth >= 1281 ? 22 : 20,
     fontFamily: 'bold',
     lineHeight: 26,
   },
@@ -100,9 +115,19 @@ const styles = StyleSheet.create({
     fontFamily: 'medium',
     fontSize: 16,
   },
+  text1A: {
+    marginLeft: 20,
+    fontFamily: 'medium',
+    fontSize: 14,
+  },
   text2: {
     fontFamily: 'bold',
     fontSize: 16,
+    color: Colors.primary,
+  },
+  text2A: {
+    fontFamily: 'bold',
+    fontSize: 14,
     color: Colors.primary,
   },
 });

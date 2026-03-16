@@ -15,6 +15,7 @@ import ThemedText from './ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
 
+let divider = windowWidth >= 1281 ? 5 : 4;
 export default function PlatformWorksView(props) {
   const theme = useColorScheme();
   let View2 = theme === 'dark' ? ThemedView : ImageBackground;
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     marginRight: 30,
-    width: windowWidth / 5,
+    width: windowWidth / divider,
     position: 'relative',
   },
   container1: {

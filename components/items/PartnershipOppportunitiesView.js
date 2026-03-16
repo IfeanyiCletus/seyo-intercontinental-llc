@@ -14,6 +14,7 @@ import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
+let divider = windowWidth > 1280 ? 6 : 4;
 
 export default function PartnershipOpportunitiesView(props) {
   const theme = useColorScheme();
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: windowWidth / 6,
+    width: windowWidth / divider,
 
     padding: 10,
     borderRadius: 10,

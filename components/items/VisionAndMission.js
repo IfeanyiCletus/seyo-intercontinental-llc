@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   container3: {
-    width: '20%',
+    width: windowWidth >= 1281 ? '20%' : '40%',
     marginHorizontal: 20,
     paddingHorizontal: 40,
     borderRadius: 20,

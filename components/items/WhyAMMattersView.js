@@ -14,6 +14,7 @@ import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
+let divider = windowWidth >= 1281 ? 7.5 : 6.5;
 
 export default function WhyAMMattersView(props) {
   const theme = useColorScheme();
@@ -35,7 +36,7 @@ export default function WhyAMMattersView(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth / 7.5,
+    width: windowWidth / divider,
     alignItems: 'center',
     paddingVertical: 20,
     borderRadius: 20,

@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   container1: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '63%',
+    width: windowWidth > 1280 ? '63%' : '73%',
   },
   container2: {
     flexDirection: 'row',

@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    width: '70%',
+    width: windowWidth >= 1281 ? '70%' : '95%',
     alignSelf: 'center',
     marginVertical: 30,
   },

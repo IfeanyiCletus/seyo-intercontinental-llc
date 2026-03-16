@@ -51,7 +51,7 @@ export default function PartnershipOpportunities(props) {
           text1={'development'}
         />
         <ThemedView
-          style={{ width: windowWidth / 6, marginHorizontal: 20 }}
+          style={{ width: windowWidth / 4, marginHorizontal: 20 }}
         ></ThemedView>
       </ThemedView>
     </ThemedView>
@@ -61,7 +61,7 @@ export default function PartnershipOpportunities(props) {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 30,
-    width: '65%',
+    width: windowWidth > 1280 ? '65%' : '85%',
     alignItems: 'center',
     paddingVertical: 20,
     borderRadius: 20,

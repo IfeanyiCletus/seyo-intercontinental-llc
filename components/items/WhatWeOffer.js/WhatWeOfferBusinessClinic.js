@@ -16,7 +16,7 @@ import ThemedText from '../ThemedText';
 import WhyAMMattersView from '../WhyAMMattersView';
 
 const windowWidth = Dimensions.get('window').width;
-
+const divider = windowWidth > 1280 ? 3 : 2;
 export default function WhatWeOfferBusinessClinic(props) {
   const theme = useColorScheme();
 
@@ -28,106 +28,119 @@ export default function WhatWeOfferBusinessClinic(props) {
       source={require('../../../assets/images/screen1440/gradient-1.png')}
       style={styles.container}
     >
-      <View3 style={{ width: windowWidth / 3 }}>
-        <View
-          style={[
-            styles.container1,
-            { borderColor: theme === 'dark' ? Colors.white05 : Colors.gray },
-          ]}
-        >
-          <Ionicons name="briefcase-outline" size={22} color={Colors.primary} />
-          <Text style={[styles.text, { marginLeft: 10 }]}>Service 01</Text>
-        </View>
-        <ThemedText style={styles.text1}>Business Clinics</ThemedText>
-        <View style={styles.border}></View>
-        <View3 style={{ marginBottom: 20 }}>
-          <ThemedText style={styles.text2}>
-            Connect with experienced business mentors who understand the
-            challenges of building and running successful enterprises. Our
-            mentors maintain their own schedules on the platform, and clients
-            can view their availability through easy-to-use dashboards.
-          </ThemedText>
-        </View3>
-        <View3
-          style={{
-            marginBottom: 20,
-            flexDirection: 'row',
-            alignItems: 'flex-start',
-          }}
-        >
-          <View3 style={{ marginTop: 20 }}>
-            <Ionicons name="time-outline" size={24} color={Colors.primary} />
-          </View3>
-          <View3 style={{ width: '70%', marginLeft: 20 }}>
-            <ThemedText
-              style={{
-                fontFamily: 'bold',
-
-                fontSize: 20,
-              }}
-            >
-              Flexible Session Lengths
-            </ThemedText>
-            <ThemedText style={styles.text2}>
-              15 to 60 minutes, allowing for quick consultations or deep
-              discussions about complex business challenges.
-            </ThemedText>
-          </View3>
-        </View3>
-        <View3
-          style={{
-            marginBottom: 20,
-            flexDirection: 'row',
-            alignItems: 'flex-start',
-          }}
-        >
-          <View3 style={{ marginTop: 20 }}>
-            <Ionicons name="cash-outline" size={24} color={Colors.primary} />
-          </View3>
-          <View3 style={{ width: '70%', marginLeft: 20 }}>
-            <ThemedText
-              style={{
-                fontFamily: 'bold',
-
-                fontSize: 20,
-              }}
-            >
-              Transparent Revenue Model
-            </ThemedText>
-            <ThemedText style={styles.text2}>
-              70% to mentors, 30% covers administrative costs including taxes,
-              personnel, and platform maintenance.
-            </ThemedText>
-          </View3>
-        </View3>
-        <View3
-          style={{
-            marginBottom: 20,
-            flexDirection: 'row',
-            alignItems: 'flex-start',
-          }}
-        >
-          <View3 style={{ marginTop: 20 }}>
+      <View3
+        style={[
+          windowWidth <= 1280 && {
+            marginLeft: 30,
+          },
+          { width: windowWidth / divider },
+        ]}
+      >
+        <View3 style={windowWidth <= 1280 && { width: '90%' }}>
+          <View
+            style={[
+              styles.container1,
+              { borderColor: theme === 'dark' ? Colors.white05 : Colors.gray },
+            ]}
+          >
             <Ionicons
-              name="trending-up-outline"
-              size={24}
+              name="briefcase-outline"
+              size={22}
               color={Colors.primary}
             />
-          </View3>
-          <View3 style={{ width: '70%', marginLeft: 20 }}>
-            <ThemedText
-              style={{
-                fontFamily: 'bold',
-
-                fontSize: 20,
-              }}
-            >
-              Mentor Dashboard
-            </ThemedText>
+            <Text style={[styles.text, { marginLeft: 10 }]}>Service 01</Text>
+          </View>
+          <ThemedText style={styles.text1}>Business Clinics</ThemedText>
+          <View style={styles.border}></View>
+          <View3 style={{ marginBottom: 20 }}>
             <ThemedText style={styles.text2}>
-              Track performance, earnings, and client feedback with complete
-              transparency.
+              Connect with experienced business mentors who understand the
+              challenges of building and running successful enterprises. Our
+              mentors maintain their own schedules on the platform, and clients
+              can view their availability through easy-to-use dashboards.
             </ThemedText>
+          </View3>
+          <View3
+            style={{
+              marginBottom: 20,
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+            }}
+          >
+            <View3 style={{ marginTop: 20 }}>
+              <Ionicons name="time-outline" size={24} color={Colors.primary} />
+            </View3>
+            <View3 style={{ width: '70%', marginLeft: 20 }}>
+              <ThemedText
+                style={{
+                  fontFamily: 'bold',
+
+                  fontSize: 20,
+                }}
+              >
+                Flexible Session Lengths
+              </ThemedText>
+              <ThemedText style={styles.text2}>
+                15 to 60 minutes, allowing for quick consultations or deep
+                discussions about complex business challenges.
+              </ThemedText>
+            </View3>
+          </View3>
+          <View3
+            style={{
+              marginBottom: 20,
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+            }}
+          >
+            <View3 style={{ marginTop: 20 }}>
+              <Ionicons name="cash-outline" size={24} color={Colors.primary} />
+            </View3>
+            <View3 style={{ width: '70%', marginLeft: 20 }}>
+              <ThemedText
+                style={{
+                  fontFamily: 'bold',
+
+                  fontSize: 20,
+                }}
+              >
+                Transparent Revenue Model
+              </ThemedText>
+              <ThemedText style={styles.text2}>
+                70% to mentors, 30% covers administrative costs including taxes,
+                personnel, and platform maintenance.
+              </ThemedText>
+            </View3>
+          </View3>
+          <View3
+            style={{
+              marginBottom: 20,
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+            }}
+          >
+            <View3 style={{ marginTop: 20 }}>
+              <Ionicons
+                name="trending-up-outline"
+                size={24}
+                color={Colors.primary}
+              />
+            </View3>
+            <View3 style={{ width: '70%', marginLeft: 20 }}>
+              <ThemedText
+                style={{
+                  fontFamily: 'bold',
+
+                  fontSize: 20,
+                }}
+              >
+                Mentor Dashboard
+              </ThemedText>
+              <ThemedText style={styles.text2}>
+                Track performance, earnings, and client feedback with complete
+                transparency.
+              </ThemedText>
+            </View3>
           </View3>
         </View3>
       </View3>
@@ -205,7 +218,7 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: 973,
-    justifyContent: 'center',
+    justifyContent: windowWidth > 1280 ? 'center' : 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
   },

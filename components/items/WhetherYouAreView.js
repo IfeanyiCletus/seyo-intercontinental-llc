@@ -14,6 +14,7 @@ import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
+let divider = windowWidth > 1280 ? 6 : 4;
 
 export default function WhetherYouAreView(props) {
   const theme = useColorScheme();
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 10,
     marginHorizontal: 20,
-    width: windowWidth / 6,
+    width: windowWidth / divider,
     alignItems: 'center',
   },
   container1: {

@@ -15,7 +15,7 @@ import ThemedText from './ThemedText';
 import SolutionView from './SolutionView';
 
 const windowWidth = Dimensions.get('window').width;
-
+let divider = windowWidth > 1280 ? 3.5 : 2.9;
 export default function SolutionMainView(props) {
   const theme = useColorScheme();
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray,
   },
   container1: {
-    width: windowWidth / 3.5,
+    width: windowWidth / divider,
     height: 80,
     alignItems: 'center',
     justifyContent: 'center',

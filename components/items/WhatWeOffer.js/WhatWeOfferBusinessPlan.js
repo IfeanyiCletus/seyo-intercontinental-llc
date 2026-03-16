@@ -16,7 +16,7 @@ import ThemedText from '../ThemedText';
 import WhyAMMattersView from '../WhyAMMattersView';
 
 const windowWidth = Dimensions.get('window').width;
-
+const divider = windowWidth > 1280 ? 3 : 2.5;
 export default function WhatWeOfferBusinessPlan(props) {
   const theme = useColorScheme();
 
@@ -28,7 +28,7 @@ export default function WhatWeOfferBusinessPlan(props) {
       source={require('../../../assets/images/screen1440/gradient-2.png')}
       style={styles.container}
     >
-      <View3 style={{ width: windowWidth / 3 }}>
+      <View3 style={{ width: windowWidth / divider }}>
         <View style={styles.container1}>
           <Ionicons
             name="document-text-outline"
@@ -55,7 +55,7 @@ export default function WhatWeOfferBusinessPlan(props) {
             },
           ]}
         >
-          <View style={{ marginLeft: 20 }}>
+          <View style={{ marginLeft: windowWidth > 1280 ? 20 : 10 }}>
             <ThemedText style={[styles.text3, { marginBottom: 20 }]}>
               Our Business Standard Package provides:
             </ThemedText>
@@ -121,7 +121,12 @@ export default function WhatWeOfferBusinessPlan(props) {
             </View>
           </View>
         </View3>
-        <View style={{ flexDirection: 'row', width: '90%' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            width: windowWidth > 1280 ? '90%' : '86%',
+          }}
+        >
           <View style={styles.container5}>
             <Image
               source={require('../../../assets/images/screen1440/launch-startup.png')}
@@ -185,7 +190,7 @@ const styles = StyleSheet.create({
   },
   container2: {
     backgroundColor: Colors.white05,
-    width: '90%',
+    width: windowWidth > 1280 ? '90%' : '100%',
     flexDirection: 'row',
     paddingVertical: 20,
     borderRadius: 20,
@@ -194,7 +199,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   container5: {
-    width: '30%',
+    width: windowWidth > 1280 ? '30%' : '35%',
     backgroundColor: Colors.silver,
     borderWidth: 2,
     borderColor: Colors.ficialPink,

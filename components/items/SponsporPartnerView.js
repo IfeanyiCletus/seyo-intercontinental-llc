@@ -14,7 +14,7 @@ import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
 const windowWidth = Dimensions.get('window').width;
-
+let divider = windowWidth > 1280 ? 6 : 4.5;
 export default function SponsporPartnerView(props) {
   const theme = useColorScheme();
 
@@ -37,7 +37,7 @@ export default function SponsporPartnerView(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth / 6,
+    width: windowWidth / divider,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     lineHeight: 24,
     marginTop: 20,
+    textAlign: 'center',
   },
 });
