@@ -1,23 +1,19 @@
 import React from 'react';
 import {
-  View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
   useColorScheme,
-  Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
-import ThemedText from './ThemedText';
 import SolutionView from './SolutionView';
 
-const windowWidth = Dimensions.get('window').width;
-let divider = windowWidth > 1280 ? 3.5 : 2.9;
 export default function SolutionMainView(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
+  const isPhone = width <= 430;
 
   return (
     <ThemedView
@@ -26,7 +22,10 @@ export default function SolutionMainView(props) {
         theme === 'dark' && { borderColor: Colors.white01 },
       ]}
     >
-      <ImageBackground source={props.uri} style={styles.container1}>
+      <ImageBackground
+        source={props.uri}
+        style={[styles.container1, { height: isPhone ? 72 : 80 }]}
+      >
         <Text
           style={{
             fontSize: 24,
@@ -48,21 +47,17 @@ export default function SolutionMainView(props) {
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 14,
-    fontFamily: 'bold',
-    lineHeight: 24,
-    marginLeft: 20,
-  },
   container: {
     borderRadius: 20,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: Colors.gray,
+    width: '100%',
+    maxWidth: 420,
+    marginVertical: 12,
   },
   container1: {
-    width: windowWidth / divider,
-    height: 80,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },

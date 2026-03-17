@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
   useColorScheme,
   Pressable,
-  Image,
   TextInput,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from '../ThemedView';
 import ThemedText from '../ThemedText';
 
-const windowWidth = Dimensions.get('window').width;
-const divider = windowWidth > 1280 ? 3 : 2.5;
 export default function ContactForm(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
@@ -30,16 +30,38 @@ export default function ContactForm(props) {
   return (
     <View2
       source={require('../../../assets/images/screen1440/gradient-1.png')}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          width,
+          minHeight: isTablet ? undefined : 973,
+          flexDirection: isTablet ? 'column' : 'row',
+          paddingHorizontal: isPhone ? 16 : 24,
+          paddingVertical: isTablet ? 40 : 0,
+        },
+      ]}
     >
-      <View3 style={styles.container1}>
+      <View3
+        style={[
+          styles.container1,
+          {
+            width: isTablet ? '100%' : width > 1280 ? width / 3 : width / 2.5,
+            marginRight: isTablet ? 0 : 40,
+            marginBottom: isTablet ? 24 : 0,
+          },
+        ]}
+      >
         <View style={styles.container2}>
           <View style={styles.iconContainer}>
             <Ionicons name="chatbox-outline" size={24} color={Colors.white} />
           </View>
           <View style={{ marginLeft: 20 }}>
-            <Text style={styles.text}>Send us a message</Text>
-            <Text style={styles.text1}>We'll respond as soon as possible</Text>
+            <Text style={[styles.text, isPhone && styles.textPhone]}>
+              Send us a message
+            </Text>
+            <Text style={[styles.text1, isPhone && styles.text1Phone]}>
+              We'll respond as soon as possible
+            </Text>
           </View>
         </View>
         <View style={{ alignSelf: 'center', width: '90%' }}>
@@ -71,7 +93,7 @@ export default function ContactForm(props) {
               style={styles.textInputLight}
               maxLength={50}
             />
-            {/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) &&
+            {!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) &&
               email.length > 3 && (
                 <View>
                   <Text style={styles.text3}>Invalid Email</Text>
@@ -136,11 +158,18 @@ export default function ContactForm(props) {
             )}
         </View>
       </View3>
-      <View3 style={styles.container3}>
+      <View3
+        style={[
+          styles.container3,
+          { width: isTablet ? '100%' : width > 1280 ? width / 3 : width / 2.5 },
+        ]}
+      >
         <View3>
-          <ThemedText style={styles.text7}>Contact Information</ThemedText>
+          <ThemedText style={[styles.text7, isPhone && styles.text7Phone]}>
+            Contact Information
+          </ThemedText>
           <View style={styles.border}></View>
-          <ThemedText style={styles.text4}>
+          <ThemedText style={[styles.text4, isPhone && styles.text4Phone]}>
             Have questions about our services? Our team is ready to assist you.
             Reach out through any of the channels below.
           </ThemedText>
@@ -160,9 +189,15 @@ export default function ContactForm(props) {
               </View>
               <View>
                 <Text style={styles.text5}>Head Office</Text>
-                <Text style={styles.text6}>1910 Thomes Ave</Text>
-                <Text style={styles.text6}>Cheyenne, WY 82001</Text>
-                <Text style={styles.text6}>United States of America</Text>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
+                  1910 Thomes Ave
+                </Text>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
+                  Cheyenne, WY 82001
+                </Text>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
+                  United States of America
+                </Text>
               </View>
             </View>
             <View style={styles.container4}>
@@ -180,10 +215,18 @@ export default function ContactForm(props) {
               </View>
               <View>
                 <Text style={styles.text5}>Send your email to:</Text>
-                <Text style={[styles.text6, { color: Colors.primary }]}>
+                <Text
+                  style={[
+                    styles.text6,
+                    isPhone && styles.text6Phone,
+                    { color: Colors.primary },
+                  ]}
+                >
                   info@accessmentor.com
                 </Text>
-                <Text style={styles.text6}>We'll respond within 24 hours</Text>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
+                  We'll respond within 24 hours
+                </Text>
               </View>
             </View>
             <View style={styles.container4}>
@@ -197,8 +240,10 @@ export default function ContactForm(props) {
               </View>
               <View>
                 <Text style={styles.text5}>24/7 Support</Text>
-                <Text style={styles.text6}>Call us anytime</Text>
-                <Text style={styles.text6}>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
+                  Call us anytime
+                </Text>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
                   Available across all time zones
                 </Text>
               </View>
@@ -214,8 +259,12 @@ export default function ContactForm(props) {
               </View>
               <View>
                 <Text style={styles.text5}>Global Service</Text>
-                <Text style={styles.text6}>Serving clients worldwide</Text>
-                <Text style={styles.text6}>Multilingual support available</Text>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
+                  Serving clients worldwide
+                </Text>
+                <Text style={[styles.text6, isPhone && styles.text6Phone]}>
+                  Multilingual support available
+                </Text>
               </View>
             </View>
           </View>
@@ -227,20 +276,15 @@ export default function ContactForm(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth,
-    height: 973,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
   },
   container1: {
     backgroundColor: Colors.white,
-    width: windowWidth / divider,
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 10,
     alignItems: 'center',
-    marginRight: 40,
   },
   container2: {
     flexDirection: 'row',
@@ -248,7 +292,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   container3: {
-    width: windowWidth / divider,
+    width: '40%',
   },
   container4: {
     backgroundColor: Colors.white,
@@ -271,16 +315,28 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     color: Colors.black,
   },
+  textPhone: {
+    fontSize: 24,
+    lineHeight: 28,
+  },
   text7: {
     fontFamily: 'bold',
     fontSize: 28,
     lineHeight: 30,
+  },
+  text7Phone: {
+    fontSize: 24,
+    lineHeight: 28,
   },
   text1: {
     fontFamily: 'light',
     fontSize: 14,
     lineHeight: 20,
     color: Colors.black,
+  },
+  text1Phone: {
+    fontSize: 13,
+    lineHeight: 18,
   },
   text2: {
     fontFamily: 'medium',
@@ -298,6 +354,9 @@ const styles = StyleSheet.create({
     fontFamily: 'light',
     lineHeight: 28,
   },
+  text4Phone: {
+    lineHeight: 24,
+  },
   text5: {
     fontSize: 16,
     fontFamily: 'bold',
@@ -308,6 +367,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'light',
     lineHeight: 22,
+  },
+  text6Phone: {
+    fontSize: 13,
+    lineHeight: 20,
   },
   textInputLight: {
     borderWidth: 1,

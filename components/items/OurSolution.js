@@ -1,44 +1,64 @@
 import React from 'react';
 import {
   View,
-  Image,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
   useColorScheme,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
-import OfficeView from './OfficeView';
 import ThemedView from './ThemedView';
-import ThemedText from './ThemedText';
 import SolutionMainView from './SolutionMainView';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function OurSolution(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
   let View2 = theme === 'dark' ? ThemedView : ImageBackground;
   let View3 = theme === 'dark' ? ThemedView : View;
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
   return (
     <View2
       source={require('../../assets/images/screen1440/gradient-3.png')}
-      style={{ alignItems: 'center' }}
+      style={{ alignItems: 'center', paddingHorizontal: isPhone ? 16 : 24 }}
     >
       <ImageBackground
         source={require('../../assets/images/screen1440/back-image1.png')}
-        style={styles.container}
+        style={[
+          styles.container,
+          {
+            width: isTablet ? '100%' : 1256,
+            minHeight: isPhone ? 240 : 221,
+            paddingHorizontal: isPhone ? 20 : 24,
+          },
+        ]}
       >
-        <Text style={styles.text}>Our Solution</Text>
-        <View style={{ width: '70%' }}>
-          <Text style={styles.text1}>
+        <Text style={[styles.text, isPhone && styles.textPhone]}>
+          Our Solution
+        </Text>
+        <ThemedView
+          style={{
+            width: isTablet ? '100%' : '70%',
+            backgroundColor: 'transparent',
+          }}
+        >
+          <Text style={[styles.text1, isPhone && styles.text1Phone]}>
             ACCESS MENTOR removes these barriers by creating a global digital
             marketplace where expertise meets need — fairly, transparently, and
             securely.
           </Text>
-        </View>
+        </ThemedView>
       </ImageBackground>
-      <View3 style={styles.container1}>
+      <View3
+        style={[
+          styles.container1,
+          isTablet && styles.container1Tablet,
+          {
+            width: isTablet ? '100%' : width > 1280 ? '63%' : '73%',
+          },
+        ]}
+      >
         <SolutionMainView
           uri={require('../../assets/images/screen1440/back-image2.png')}
           text={'For Clients'}
@@ -70,22 +90,19 @@ export default function OurSolution(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 1256,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 221,
+    paddingVertical: 36,
   },
   container1: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: windowWidth > 1280 ? '63%' : '73%',
+    marginTop: 24,
+    gap: 24,
   },
-  container2: {
-    flexDirection: 'row',
-    marginTop: 60,
-    width: '70%',
-    alignSelf: 'center',
-    marginBottom: 20,
+  container1Tablet: {
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   text: {
     fontFamily: 'bold',
@@ -93,16 +110,18 @@ const styles = StyleSheet.create({
     color: Colors.white,
     textAlign: 'center',
   },
+  textPhone: {
+    fontSize: 22,
+  },
   text1: {
     fontFamily: 'light',
     fontSize: 18,
     color: Colors.white,
     textAlign: 'center',
+    lineHeight: 28,
   },
-  text2: {
-    fontSize: 24,
-    fontFamily: 'light',
-    lineHeight: 42,
-    textAlign: 'right',
+  text1Phone: {
+    fontSize: 16,
+    lineHeight: 20,
   },
 });

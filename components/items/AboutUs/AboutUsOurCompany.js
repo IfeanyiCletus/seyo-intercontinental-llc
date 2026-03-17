@@ -2,23 +2,21 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
   useColorScheme,
-  Pressable,
   Image,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from '../ThemedView';
 import ThemedText from '../ThemedText';
-import WhyAMMattersView from '../WhyAMMattersView';
-
-const windowWidth = Dimensions.get('window').width;
-let divider = windowWidth > 1280 ? 4 : 2.5;
 export default function AboutUsOurCompany(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
 
   let View2 = theme === 'dark' ? ThemedView : ImageBackground;
   let View3 = theme === 'dark' ? ThemedView : View;
@@ -26,21 +24,44 @@ export default function AboutUsOurCompany(props) {
   return (
     <View2
       source={require('../../../assets/images/screen1440/gradient-1.png')}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          width,
+          minHeight: isTablet ? undefined : 973,
+          flexDirection: isTablet ? 'column' : 'row',
+          paddingHorizontal: isPhone ? 16 : 24,
+          paddingVertical: isTablet ? 48 : 0,
+        },
+      ]}
     >
-      <View3 style={{ width: windowWidth / divider }}>
+      <View3
+        style={{
+          width: isTablet ? '100%' : width > 1280 ? width / 4 : width / 2.5,
+          marginBottom: isTablet ? 32 : 0,
+        }}
+      >
         <View
           style={[
             styles.container1,
+            {
+              width: width > 1280 ? '30%' : isTablet ? (isPhone ? '55%' : '35%') : '45%',
+            },
             { borderColor: theme === 'dark' ? Colors.white05 : Colors.gray },
           ]}
         >
           <Text style={styles.text}>Our Company</Text>
         </View>
-        <ThemedText style={styles.text1}>About Us</ThemedText>
+        <ThemedText
+          style={[styles.text1, isTablet && styles.text1Tablet, isPhone && styles.text1Phone]}
+        >
+          About Us
+        </ThemedText>
         <View style={styles.border}></View>
         <View3 style={{ marginBottom: 20 }}>
-          <ThemedText style={styles.text2}>
+          <ThemedText
+            style={[styles.text2, isPhone && styles.text2Phone]}
+          >
             <ThemedText style={{ fontFamily: 'bold' }}>
               SEYO INTERCONTINENTAL LLC
             </ThemedText>{' '}
@@ -51,7 +72,9 @@ export default function AboutUsOurCompany(props) {
           </ThemedText>
         </View3>
         <View3 style={{ marginBottom: 20 }}>
-          <ThemedText style={styles.text2}>
+          <ThemedText
+            style={[styles.text2, isPhone && styles.text2Phone]}
+          >
             This gap inspired the creation of{' '}
             <ThemedText style={{ fontFamily: 'bold', color: Colors.primary }}>
               ACCESS MENTOR
@@ -61,7 +84,12 @@ export default function AboutUsOurCompany(props) {
             decisions, personal challenges, and career development.
           </ThemedText>
         </View3>
-        <View3 style={{ flexDirection: 'row' }}>
+        <View3
+          style={[
+            styles.badgesRow,
+            isPhone && styles.badgesRowPhone,
+          ]}
+        >
           <View
             style={[
               styles.container3,
@@ -81,7 +109,7 @@ export default function AboutUsOurCompany(props) {
               styles.container3,
               {
                 borderColor: theme === 'dark' ? Colors.white05 : Colors.gray,
-                marginHorizontal: 20,
+                marginHorizontal: isPhone ? 0 : 20,
               },
             ]}
           >
@@ -97,11 +125,15 @@ export default function AboutUsOurCompany(props) {
           </View>
         </View3>
       </View3>
-      <View3>
+      <View3 style={isTablet && styles.imageWrapTablet}>
         <Image
           source={require('../../../assets/images/screen1440/about_us_usabased-image.png')}
-          width={684}
-          height={608}
+          style={[
+            styles.image,
+            isTablet && styles.imageTablet,
+            isPhone && styles.imagePhone,
+          ]}
+          resizeMode="contain"
         />
       </View3>
     </View2>
@@ -110,18 +142,14 @@ export default function AboutUsOurCompany(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth,
-    height: 973,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
   },
   container1: {
     backgroundColor: Colors.lightBlue,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: windowWidth > 1280 ? '30%' : '45%',
     alignItems: 'center',
     borderWidth: 1,
   },
@@ -136,10 +164,21 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     marginVertical: 20,
   },
+  text1Tablet: {
+    fontSize: 36,
+    lineHeight: 40,
+  },
+  text1Phone: {
+    fontSize: 30,
+    lineHeight: 34,
+  },
   text2: {
     fontSize: 16,
     fontFamily: 'light',
     lineHeight: 30,
+  },
+  text2Phone: {
+    lineHeight: 26,
   },
   text3: {
     fontSize: 28,
@@ -167,5 +206,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 1,
+  },
+  badgesRow: {
+    flexDirection: 'row',
+  },
+  badgesRowPhone: {
+    flexDirection: 'column',
+    gap: 16,
+  },
+  imageWrapTablet: {
+    alignItems: 'center',
+  },
+  image: {
+    width: 684,
+    height: 608,
+  },
+  imageTablet: {
+    width: 520,
+    height: 462,
+  },
+  imagePhone: {
+    width: 300,
+    height: 267,
   },
 });

@@ -1,23 +1,18 @@
 import React from 'react';
 import {
-  View,
   StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
   useColorScheme,
-  Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
-const windowWidth = Dimensions.get('window').width;
-let divider = windowWidth >= 1281 ? 7.5 : 6.5;
-
 export default function WhyAMMattersView(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
+  const isPhone = width <= 430;
 
   return (
     <ThemedView
@@ -29,18 +24,22 @@ export default function WhyAMMattersView(props) {
       <ThemedView style={styles.container1}>
         <Ionicons name={props.icon} size={24} color={Colors.red} />
       </ThemedView>
-      <ThemedText style={styles.text}>{props.text}</ThemedText>
+      <ThemedText style={[styles.text, isPhone && styles.textPhone]}>
+        {props.text}
+      </ThemedText>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth / divider,
+    width: '100%',
+    maxWidth: 240,
     alignItems: 'center',
     paddingVertical: 20,
     borderRadius: 20,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   container1: {
     backgroundColor: Colors.pink,
@@ -61,6 +60,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'light',
     textAlign: 'center',
+    lineHeight: 18,
+  },
+  textPhone: {
+    fontSize: 13,
+    lineHeight: 20,
   },
   dark: {
     borderWidth: 1,

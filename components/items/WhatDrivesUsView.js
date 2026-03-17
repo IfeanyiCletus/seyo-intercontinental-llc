@@ -1,31 +1,21 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
-  useColorScheme,
-  Pressable,
-} from 'react-native';
+import { View, StyleSheet, Text, useWindowDimensions } from 'react-native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
-import ThemedView from './ThemedView';
-import ThemedText from './ThemedText';
-
-const windowWidth = Dimensions.get('window').width;
-const divider = windowWidth > 1280 ? 5 : 4;
 export default function WhatDrivesUsView(props) {
-  const theme = useColorScheme();
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const { width } = useWindowDimensions();
+  const isPhone = width <= 430;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isPhone && { paddingVertical: 10 }]}>
       <View style={styles.container1}>
         <Ionicons name={props.icon} size={32} color={Colors.gray} />
       </View>
-      <Text style={styles.text}>{props.text}</Text>
-      <Text style={styles.text1}>{props.text1}</Text>
+      <Text style={[styles.text, isPhone && styles.textPhone]}>
+        {props.text}
+      </Text>
+      <Text style={[styles.text1, isPhone && styles.text1Phone]}>
+        {props.text1}
+      </Text>
     </View>
   );
 }
@@ -33,12 +23,14 @@ export default function WhatDrivesUsView(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.primary2,
-    width: windowWidth / divider,
+    width: '100%',
+    maxWidth: 320,
     padding: 20,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: Colors.white01,
     marginHorizontal: 10,
+    marginVertical: 10,
   },
   container1: {
     backgroundColor: Colors.primary3,
@@ -56,10 +48,18 @@ const styles = StyleSheet.create({
     color: Colors.lightBlue,
     marginVertical: 20,
   },
+  textPhone: {
+    fontSize: 16,
+    lineHeight: 20,
+    marginVertical: 10,
+  },
   text1: {
     fontSize: 14,
     fontFamily: 'light',
     lineHeight: 26,
     color: Colors.lighterBlue,
+  },
+  text1Phone: {
+    lineHeight: 20,
   },
 });

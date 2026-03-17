@@ -1,28 +1,23 @@
 import React from 'react';
 import {
-  View,
-  Image,
   StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
-  useColorScheme,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
-import OfficeView from './OfficeView';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
-import SponsporPartnerView from './SponsporPartnerView';
 import PartnershipOpportunitiesView from './PartnershipOppportunitiesView';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function PartnershipOpportunities(props) {
-  const theme = useColorScheme();
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const { width } = useWindowDimensions();
+  const isTablet = width <= 768;
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView
+      style={[
+        styles.container,
+        { width: width > 1280 ? '65%' : isTablet ? '100%' : '85%' },
+      ]}
+    >
       <ThemedText style={styles.text}>
         Partnership Opportunities include:
       </ThemedText>
@@ -39,8 +34,6 @@ export default function PartnershipOpportunities(props) {
           icon={'people-outline'}
           text={'Mentor recruitment'}
         />
-      </ThemedView>
-      <ThemedView style={styles.container1}>
         <PartnershipOpportunitiesView
           icon={'language-outline'}
           text={'Language and regional growth'}
@@ -50,9 +43,6 @@ export default function PartnershipOpportunities(props) {
           text={'Industry-specific programme'}
           text1={'development'}
         />
-        <ThemedView
-          style={{ width: windowWidth / 4, marginHorizontal: 20 }}
-        ></ThemedView>
       </ThemedView>
     </ThemedView>
   );
@@ -61,9 +51,9 @@ export default function PartnershipOpportunities(props) {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 30,
-    width: windowWidth > 1280 ? '65%' : '85%',
     alignItems: 'center',
     paddingVertical: 20,
+    paddingHorizontal: 12,
     borderRadius: 20,
     shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 12 },
@@ -74,10 +64,13 @@ const styles = StyleSheet.create({
   container1: {
     flexDirection: 'row',
     marginTop: 20,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 22,
     fontFamily: 'bold',
     lineHeight: 32,
+    textAlign: 'center',
   },
 });

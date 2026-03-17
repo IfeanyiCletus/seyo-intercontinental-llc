@@ -1,25 +1,18 @@
 import React from 'react';
 import {
-  View,
   StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
   useColorScheme,
-  Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
-const windowWidth = Dimensions.get('window').width;
-
-let divider = windowWidth >= 1281 ? 5 : 4;
 export default function PlatformWorksView(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const isPhone = width <= 430;
   return (
     <ThemedView
       style={[
@@ -37,7 +30,11 @@ export default function PlatformWorksView(props) {
         <Ionicons name={props.icon} color={Colors.primary} size={30} />
       </ThemedView>
       <ThemedText style={styles.text1}>{props.text1}</ThemedText>
-      <ThemedText style={styles.text2}>{props.text2}</ThemedText>
+      <ThemedText
+        style={[styles.text2, isPhone && styles.text2Phone]}
+      >
+        {props.text2}
+      </ThemedText>
     </ThemedView>
   );
 }
@@ -50,9 +47,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingTop: 20,
-    marginRight: 30,
-    width: windowWidth / divider,
     position: 'relative',
+    width: '100%',
+    maxWidth: 340,
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   container1: {
     backgroundColor: Colors.secondary,
@@ -91,5 +90,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 18,
     marginBottom: 10,
+  },
+  text2Phone: {
+    fontSize: 13,
+    lineHeight: 20,
   },
 });

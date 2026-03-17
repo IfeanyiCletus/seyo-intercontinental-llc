@@ -144,7 +144,28 @@ const HeroScreen = ({ navigation, route }) => {
             <MeetTheTeamMembers />
           </ThemedView>
         )}
-        <Footer />
+        <Footer
+          pressHome={() => {
+            setSelected('HOME');
+            scrollToPosition(0);
+          }}
+          pressAboutUs={() => {
+            setSelected('ABOUT_US');
+            scrollToPosition(0);
+          }}
+          pressWhatWeOffer={() => {
+            setSelected('WHAT_WE_OFFER');
+            scrollToPosition(0);
+          }}
+          pressMeetTheTeam={() => {
+            setSelected('MEET_THE_TEAM');
+            scrollToPosition(0);
+          }}
+          pressContactUs={() => {
+            setSelected('CONTACT_US');
+            scrollToPosition(0);
+          }}
+        />
       </ScrollView>
     </ThemedView>
   );

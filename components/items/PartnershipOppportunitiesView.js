@@ -2,21 +2,17 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
   useColorScheme,
-  Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
-const windowWidth = Dimensions.get('window').width;
-let divider = windowWidth > 1280 ? 6 : 4;
-
 export default function PartnershipOpportunitiesView(props) {
+  const { width } = useWindowDimensions();
+  const isPhone = width <= 430;
   const theme = useColorScheme();
   let View3 = theme === 'dark' ? ThemedView : View;
   return (
@@ -33,8 +29,12 @@ export default function PartnershipOpportunitiesView(props) {
         <Ionicons name={props.icon} size={24} color={Colors.white} />
       </ThemedView>
       <View3>
-        <ThemedText style={styles.text}>{props.text}</ThemedText>
-        <ThemedText style={styles.text}>{props.text1}</ThemedText>
+        <ThemedText style={[styles.text, isPhone && styles.textPhone]}>
+          {props.text}
+        </ThemedText>
+        <ThemedText style={[styles.text, isPhone && styles.textPhone]}>
+          {props.text1}
+        </ThemedText>
       </View3>
     </ThemedView>
   );
@@ -44,11 +44,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: windowWidth / divider,
-
+    width: '100%',
+    maxWidth: 320,
     padding: 10,
     borderRadius: 10,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
+    marginVertical: 10,
     borderWidth: 1,
     borderColor: Colors.white01,
   },
@@ -65,5 +66,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 18,
     marginLeft: 20,
+    flexShrink: 1,
+  },
+  textPhone: {
+    fontSize: 13,
+    lineHeight: 20,
   },
 });

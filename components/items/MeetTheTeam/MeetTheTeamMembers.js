@@ -2,24 +2,20 @@ import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
-  Text,
   useColorScheme,
-  Pressable,
-  Image,
-  TextInput,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
 import ThemedView from '../ThemedView';
 import ThemedText from '../ThemedText';
 import MembersView from './MembersView';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function MeetTheTeamMembers(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
   const [showTeam1, setShowTeam1] = useState(false);
   const [showTeam2, setShowTeam2] = useState(false);
   const [showTeam3, setShowTeam3] = useState(false);
@@ -34,17 +30,25 @@ export default function MeetTheTeamMembers(props) {
       source={require('../../../assets/images/screen1440/gradient-5.png')}
       style={[
         styles.container,
-        showTeam1 || showTeam2 || showTeam3 || showTeam4 || showTeam5
-          ? { height: windowWidth > 1280 ? 3400 : 3350 }
-          : { height: windowWidth > 1280 ? 2700 : 2500 },
+        {
+          width,
+          paddingHorizontal: isPhone ? 16 : 24,
+          paddingVertical: isTablet ? 48 : 0,
+        },
       ]}
     >
-      <ThemedText style={styles.text}>
+      <ThemedText
+        style={[
+          styles.text,
+          isTablet && styles.textTablet,
+          isPhone && styles.textPhone,
+        ]}
+      >
         Experience. Expertise. Excellence
       </ThemedText>
       <View style={styles.border}></View>
-      <View3 style={{ width: '50%', marginBottom: 30 }}>
-        <ThemedText style={styles.text1}>
+      <View3 style={{ width: isTablet ? '100%' : '80%', marginBottom: 30 }}>
+        <ThemedText style={[styles.text1, isPhone && styles.text1Phone]}>
           Our team brings together decades of combined experience across
           entrepreneurship, enterprise development, finance, trade policy, and
           academic excellence. Each member has been carefully selected for their
@@ -52,7 +56,14 @@ export default function MeetTheTeamMembers(props) {
           sustainable growth and success.
         </ThemedText>
       </View3>
-      <View3 style={{ flexDirection: 'row', marginBottom: 20 }}>
+      <View3
+        style={[
+          isTablet || isPhone
+            ? styles.membersRowPhoneTablet
+            : styles.membersRow,
+          isTablet && { width: width - 40, alignItems: 'center' },
+        ]}
+      >
         <MembersView
           image={require('../../../assets/images/teamMembers/team1.png')}
           name={'Aliyu Bello Usman'}
@@ -116,7 +127,14 @@ export default function MeetTheTeamMembers(props) {
           }}
         />
       </View3>
-      <View3 style={{ flexDirection: 'row' }}>
+      <View3
+        style={[
+          isTablet || isPhone
+            ? styles.membersRowPhoneTablet
+            : styles.membersRow,
+          isTablet && { width: width - 40, alignItems: 'center' },
+        ]}
+      >
         <MembersView
           image={require('../../../assets/images/teamMembers/team3.png')}
           name={'Dr. Shashi Kant Prasad Chaudhary'}
@@ -180,7 +198,13 @@ export default function MeetTheTeamMembers(props) {
           }}
         />
       </View3>
-      <View3 style={{ marginTop: 20, marginBottom: 40 }}>
+      <View3
+        style={{
+          marginTop: 20,
+          marginBottom: 40,
+          width: isTablet ? '100%' : 'auto',
+        }}
+      >
         <MembersView
           image={require('../../../assets/images/teamMembers/team5.png')}
           name={'Regina Bamaiyi'}
@@ -218,8 +242,6 @@ export default function MeetTheTeamMembers(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth,
-    // height: windowWidth > 1280 ? 3331 : 3500,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -235,13 +257,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 30,
   },
-  container3: {
-    width: windowWidth / 2.5,
-    marginTop: 20,
-    borderRadius: 10,
-    overflow: 'hidden',
-    marginHorizontal: 20,
-  },
+  // container3: {
+  //   width: windowWidth / 2.5,
+  //   marginTop: 20,
+  //   borderRadius: 10,
+  //   overflow: 'hidden',
+  //   marginHorizontal: 20,
+  // },
   buttonContainer: {
     marginTop: 20,
     flexDirection: 'row',
@@ -252,11 +274,24 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     fontFamily: 'bold',
   },
+  textTablet: {
+    fontSize: 30,
+    lineHeight: 36,
+    textAlign: 'center',
+  },
+  textPhone: {
+    fontSize: 24,
+    lineHeight: 30,
+  },
   text1: {
     textAlign: 'center',
     fontSize: 15,
     fontFamily: 'light',
     lineHeight: 28,
+  },
+  text1Phone: {
+    fontSize: 14,
+    lineHeight: 24,
   },
   text2: {
     fontSize: 22,
@@ -306,5 +341,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'medium',
     color: Colors.primary,
+  },
+  membersRow: {
+    flexDirection: 'row',
+    // flexWrap: 'wrap',
+    justifyContent: 'center',
+    width: '100%',
+    marginBottom: 20,
+  },
+  membersRowPhoneTablet: {
+    // flexDirection: 'row',
+    // flexWrap: 'wrap',
+    justifyContent: 'center',
+    width: '95%',
+    marginBottom: 20,
   },
 });

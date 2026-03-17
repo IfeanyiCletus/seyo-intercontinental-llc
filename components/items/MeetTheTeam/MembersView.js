@@ -2,46 +2,64 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
-  useColorScheme,
   Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
-import ThemedView from '../ThemedView';
-
-const windowWidth = Dimensions.get('window').width;
 
 export default function MembersView(props) {
-  const theme = useColorScheme();
-
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const { width } = useWindowDimensions();
+  const isPhone = width <= 430;
+  const isTablet = width <= 780;
 
   return (
-    <View style={styles.container3}>
-      <ImageBackground source={props.image} style={styles.imageContainer}>
+    <View
+      style={[
+        styles.container3,
+        !isPhone && !isTablet && { width: width / 2.5 },
+      ]}
+    >
+      <ImageBackground
+        source={props.image}
+        style={[
+          styles.imageContainer,
+          { height: width > 1280 ? 470 : width <= 430 ? 270 : 390 },
+        ]}
+      >
         <View style={{}}>
-          <Text style={styles.text2}>{props.name}</Text>
-          <Text style={styles.text3}>{props.title}</Text>
+          <Text style={[styles.text2, isPhone && styles.text2Phone]}>
+            {props.name}
+          </Text>
+          <Text style={[styles.text3, isPhone && styles.text3Phone]}>
+            {props.title}
+          </Text>
         </View>
       </ImageBackground>
       <View style={styles.container1}>
         <View style={styles.container2}>
           <Ionicons name="briefcase-outline" size={24} color={Colors.primary} />
-          <Text style={styles.text4}>{props.position}</Text>
+          <Text style={[styles.text4, isPhone && styles.text4Phone]}>
+            {props.position}
+          </Text>
         </View>
         <View>
-          <Text style={styles.text5}>{props.text1}</Text>
+          <Text style={[styles.text5, isPhone && styles.text5Phone]}>
+            {props.text1}
+          </Text>
         </View>
 
         {props.showFull && (
           <View>
             <View>
-              <Text style={styles.text5}>{props.text2}</Text>
-              <Text style={styles.text5}>{props.text3}</Text>
+              <Text style={[styles.text5, isPhone && styles.text5Phone]}>
+                {props.text2}
+              </Text>
+              <Text style={[styles.text5, isPhone && styles.text5Phone]}>
+                {props.text3}
+              </Text>
             </View>
             <View style={styles.container2}>
               <Ionicons
@@ -49,18 +67,32 @@ export default function MembersView(props) {
                 size={24}
                 color={Colors.primary}
               />
-              <Text style={styles.text4}>Expertise</Text>
+              <Text style={[styles.text4, isPhone && styles.text4Phone]}>
+                Expertise
+              </Text>
             </View>
             <View>
-              <Text style={styles.text5A}>{props.expertise1}</Text>
-              <Text style={styles.text5A}>{props.expertise2}</Text>
-              <Text style={styles.text5A}>{props.expertise3}</Text>
-              <Text style={styles.text5A}>{props.expertise4}</Text>
+              <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                {props.expertise1}
+              </Text>
+              <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                {props.expertise2}
+              </Text>
+              <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                {props.expertise3}
+              </Text>
+              <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                {props.expertise4}
+              </Text>
               {props.expertise5 && (
-                <Text style={styles.text5A}>{props.expertise5}</Text>
+                <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                  {props.expertise5}
+                </Text>
               )}
               {props.expertise6 && (
-                <Text style={styles.text5A}>{props.expertise6}</Text>
+                <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                  {props.expertise6}
+                </Text>
               )}
             </View>
             <View style={styles.container2}>
@@ -69,17 +101,29 @@ export default function MembersView(props) {
                 size={24}
                 color={Colors.primary}
               />
-              <Text style={styles.text4}>Credentials and Achievements</Text>
+              <Text style={[styles.text4, isPhone && styles.text4Phone]}>
+                Credentials and Achievements
+              </Text>
             </View>
             <View>
-              <Text style={styles.text5A}>{props.achievement1}</Text>
-              <Text style={styles.text5A}>{props.achievement2}</Text>
-              <Text style={styles.text5A}>{props.achievement3}</Text>
+              <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                {props.achievement1}
+              </Text>
+              <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                {props.achievement2}
+              </Text>
+              <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                {props.achievement3}
+              </Text>
               {props.achievement4 && (
-                <Text style={styles.text5A}>{props.achievement4}</Text>
+                <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                  {props.achievement4}
+                </Text>
               )}
               {props.achievement5 && (
-                <Text style={styles.text5A}>{props.achievement5}</Text>
+                <Text style={[styles.text5A, isPhone && styles.text5APhone]}>
+                  {props.achievement5}
+                </Text>
               )}
             </View>
           </View>
@@ -87,7 +131,7 @@ export default function MembersView(props) {
 
         <Pressable style={styles.buttonContainer} onPress={props.onPress}>
           <Text
-            style={styles.pressText}
+            style={[styles.pressText, isPhone && styles.pressTextPhone]}
           >{`${props.showFull ? 'Show Less' : 'Show More'}`}</Text>
           <Ionicons
             name="chevron-up-outline"
@@ -120,11 +164,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   container3: {
-    width: windowWidth / 2.5,
+    width: '100%',
+    minWidth: 410,
     marginTop: 20,
     borderRadius: 10,
     overflow: 'hidden',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
   shadowContainer: {
     shadowColor: Colors.black,
@@ -155,10 +200,18 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     color: Colors.white,
   },
+  text2Phone: {
+    fontSize: 18,
+    lineHeight: 22,
+  },
   text3: {
     fontSize: 14,
     fontFamily: 'light',
     color: Colors.gray,
+  },
+  text3Phone: {
+    fontSize: 12,
+    lineHeight: 16,
   },
   border: {
     borderTopColor: Colors.primary,
@@ -170,7 +223,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
     padding: 20,
-    height: windowWidth > 1280 ? 470 : 291,
     width: '100%',
   },
   text4: {
@@ -179,12 +231,20 @@ const styles = StyleSheet.create({
     color: Colors.black,
     marginLeft: 10,
   },
+  text4Phone: {
+    fontSize: 13,
+    lineHeight: 20,
+  },
   text5: {
     fontFamily: 'light',
     fontSize: 14,
     color: Colors.black,
     lineHeight: 26,
     marginTop: 20,
+  },
+  text5Phone: {
+    fontSize: 13,
+    lineHeight: 22,
   },
   text5A: {
     fontFamily: 'light',
@@ -193,9 +253,16 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     marginTop: 5,
   },
+  text5APhone: {
+    fontSize: 13,
+    lineHeight: 22,
+  },
   pressText: {
     fontSize: 14,
     fontFamily: 'medium',
     color: Colors.primary,
+  },
+  pressTextPhone: {
+    fontSize: 13,
   },
 });

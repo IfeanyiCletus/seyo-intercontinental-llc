@@ -2,27 +2,22 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
-  ImageBackground,
   Text,
-  useColorScheme,
-  Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
-import ThemedView from './ThemedView';
-import ThemedText from './ThemedText';
-
-const windowWidth = Dimensions.get('window').width;
-let divider = windowWidth > 1280 ? 6 : 4;
 
 export default function WhetherYouAreView(props) {
-  const theme = useColorScheme();
+  const { width } = useWindowDimensions();
+  const isPhone = width <= 430;
 
   return (
     <View style={styles.container}>
       <Ionicons name="checkmark-done-outline" size={30} color={Colors.gray} />
-      <Text style={styles.text3}>{props.text}</Text>
+      <Text style={[styles.text3, isPhone && styles.text3Phone]}>
+        {props.text}
+      </Text>
     </View>
   );
 }
@@ -34,8 +29,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderRadius: 10,
-    marginHorizontal: 20,
-    width: windowWidth / divider,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    width: '100%',
+    maxWidth: 320,
     alignItems: 'center',
   },
   container1: {
@@ -49,9 +46,14 @@ const styles = StyleSheet.create({
 
   text3: {
     fontFamily: 'light',
-    lineHeight: 18,
+    lineHeight: 22,
     fontSize: 16,
     color: Colors.gray,
     marginLeft: 20,
+    flexShrink: 1,
+  },
+  text3Phone: {
+    lineHeight: 20,
+    fontSize: 15,
   },
 });

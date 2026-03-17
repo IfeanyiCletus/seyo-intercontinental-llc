@@ -2,23 +2,21 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
   useColorScheme,
-  Pressable,
   Image,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from '../ThemedView';
 import ThemedText from '../ThemedText';
-import WhyAMMattersView from '../WhyAMMattersView';
-
-const windowWidth = Dimensions.get('window').width;
-const divider = windowWidth > 1280 ? 3 : 2.5;
 export default function WhatWeOfferGuidance(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
 
   let View2 = theme === 'dark' ? ThemedView : ImageBackground;
   let View3 = theme === 'dark' ? ThemedView : View;
@@ -26,24 +24,42 @@ export default function WhatWeOfferGuidance(props) {
   return (
     <View2
       source={require('../../../assets/images/screen1440/gradient-2.png')}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          width,
+          minHeight: isTablet ? undefined : 860,
+          flexDirection: isTablet ? 'column' : 'row',
+          paddingHorizontal: isPhone ? 16 : 24,
+          paddingVertical: isTablet ? 48 : 0,
+        },
+      ]}
     >
-      <View3>
+      <View3 style={isTablet && styles.imageWrapTablet}>
         <Image
           source={require('../../../assets/images/screen1440/what-we-offer-guidance.png')}
-          width={652}
-          height={576}
+          style={[styles.image, isTablet && styles.imageTablet, isPhone && styles.imagePhone]}
+          resizeMode="contain"
         />
       </View3>
-      <View3 style={{ width: windowWidth / divider }}>
-        <View style={styles.container1}>
+      <View3 style={{ width: isTablet ? '100%' : width > 1280 ? width / 3 : width / 2.5 }}>
+        <View
+          style={[
+            styles.container1,
+            { width: width > 1280 ? '30%' : isTablet ? '42%' : '40%' },
+          ]}
+        >
           <Ionicons name="briefcase-outline" size={22} color={Colors.red} />
           <Text style={[styles.text, { marginLeft: 20 }]}>Service 02</Text>
         </View>
-        <ThemedText style={styles.text1}>Guidance & Counselling</ThemedText>
-        <ThemedText style={styles.text1}>Service</ThemedText>
+        <ThemedText style={[styles.text1, isTablet && styles.text1Tablet, isPhone && styles.text1Phone]}>
+          Guidance & Counselling
+        </ThemedText>
+        <ThemedText style={[styles.text1, isTablet && styles.text1Tablet, isPhone && styles.text1Phone]}>
+          Service
+        </ThemedText>
         <View style={styles.border}></View>
-        <ThemedText style={styles.text5}>
+        <ThemedText style={[styles.text5, isPhone && styles.text5Phone]}>
           Life presents challenges that extend beyond business decisions. Our
           Guidance and Counselling section addresses personal and emotional
           concerns that affect individual wellbeing and performance.
@@ -67,7 +83,7 @@ export default function WhatWeOfferGuidance(props) {
                 color={Colors.red}
               />
               <ThemedText
-                style={[styles.text2, { marginLeft: 20, marginBottom: 10 }]}
+                style={[styles.text2, isPhone && styles.text2Phone, { marginLeft: 20, marginBottom: 10 }]}
               >
                 Marriage and family relationships
               </ThemedText>
@@ -79,7 +95,7 @@ export default function WhatWeOfferGuidance(props) {
                 color={Colors.red}
               />
               <ThemedText
-                style={[styles.text2, { marginLeft: 20, marginBottom: 10 }]}
+                style={[styles.text2, isPhone && styles.text2Phone, { marginLeft: 20, marginBottom: 10 }]}
               >
                 Career planning and transitions
               </ThemedText>
@@ -91,7 +107,7 @@ export default function WhatWeOfferGuidance(props) {
                 color={Colors.red}
               />
               <ThemedText
-                style={[styles.text2, { marginLeft: 20, marginBottom: 10 }]}
+                style={[styles.text2, isPhone && styles.text2Phone, { marginLeft: 20, marginBottom: 10 }]}
               >
                 Addiction recovery support
               </ThemedText>
@@ -103,7 +119,7 @@ export default function WhatWeOfferGuidance(props) {
                 color={Colors.red}
               />
               <ThemedText
-                style={[styles.text2, { marginLeft: 20, marginBottom: 10 }]}
+                style={[styles.text2, isPhone && styles.text2Phone, { marginLeft: 20, marginBottom: 10 }]}
               >
                 Managing depression and emotional health
               </ThemedText>
@@ -115,7 +131,7 @@ export default function WhatWeOfferGuidance(props) {
                 color={Colors.red}
               />
               <ThemedText
-                style={[styles.text2, { marginLeft: 20, marginBottom: 10 }]}
+                style={[styles.text2, isPhone && styles.text2Phone, { marginLeft: 20, marginBottom: 10 }]}
               >
                 Educational guidance for students
               </ThemedText>
@@ -124,7 +140,7 @@ export default function WhatWeOfferGuidance(props) {
         </View3>
 
         <View style={styles.container3}>
-          <Text style={styles.text4}>
+          <Text style={[styles.text4, isPhone && styles.text4Phone]}>
             <Text style={styles.text3}>Same revenue-sharing structure: </Text>
             Fair compensation for counsellors while maintaining affordable rates
             for clients who need support.
@@ -137,17 +153,13 @@ export default function WhatWeOfferGuidance(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth,
-    height: 860,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
   },
   container1: {
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: windowWidth > 1280 ? '30%' : '40%',
     alignItems: 'center',
     borderWidth: 1,
     flexDirection: 'row',
@@ -193,14 +205,26 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontFamily: 'bold',
-    fontSize: windowWidth > 1280 ? 45 : 40,
+    fontSize: 45,
     lineHeight: 45,
+  },
+  text1Tablet: {
+    fontSize: 34,
+    lineHeight: 38,
+  },
+  text1Phone: {
+    fontSize: 28,
+    lineHeight: 32,
   },
   text2: {
     fontSize: 16,
     fontFamily: 'light',
     lineHeight: 24,
     color: Colors.black,
+  },
+  text2Phone: {
+    fontSize: 14,
+    lineHeight: 22,
   },
   text3: {
     fontSize: 16,
@@ -214,10 +238,17 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: Colors.black,
   },
+  text4Phone: {
+    fontSize: 14,
+    lineHeight: 22,
+  },
   text5: {
     fontSize: 16,
     fontFamily: 'light',
     lineHeight: 30,
+  },
+  text5Phone: {
+    lineHeight: 24,
   },
   border: {
     width: 100,
@@ -225,5 +256,21 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.pink,
     marginBottom: 30,
     marginTop: 20,
+  },
+  imageWrapTablet: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  image: {
+    width: 652,
+    height: 576,
+  },
+  imageTablet: {
+    width: 500,
+    height: 442,
+  },
+  imagePhone: {
+    width: 300,
+    height: 265,
   },
 });

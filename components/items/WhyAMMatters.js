@@ -1,30 +1,39 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
-  useColorScheme,
-  Pressable,
-} from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import Colors from '../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 import WhyAMMattersView from './WhyAMMattersView';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function WhyAMMatters(props) {
-  const theme = useColorScheme();
+  const { width } = useWindowDimensions();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
 
   return (
-    <ThemedView style={{ alignItems: 'center' }}>
-      <ThemedText style={styles.text}>Why ACCESS MENTOR Matters</ThemedText>
+    <ThemedView
+      style={{ alignItems: 'center', paddingHorizontal: isPhone ? 16 : 24 }}
+    >
+      <ThemedText
+        style={[
+          styles.text,
+          isTablet && styles.textTablet,
+          isPhone && styles.textPhone,
+        ]}
+      >
+        Why ACCESS MENTOR Matters
+      </ThemedText>
       <ThemedView style={styles.container}></ThemedView>
-      <ThemedView style={styles.container1}>
-        <ThemedText style={styles.text1}>
+      <ThemedView
+        style={[
+          styles.container1,
+          {
+            width: width >= 1281 ? '65%' : isTablet ? '100%' : '75%',
+            paddingHorizontal: isPhone ? 12 : 20,
+          },
+        ]}
+      >
+        <ThemedText style={[styles.text1, isPhone && styles.text1Phone]}>
           Traditional mentorship often faces barriers such as:
         </ThemedText>
         <ThemedView style={styles.container2}>
@@ -68,12 +77,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 18,
     elevation: 10,
-    width: windowWidth >= 1281 ? '65%' : '75%',
   },
   container2: {
     flexDirection: 'row',
     paddingVertical: 20,
     justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   pinkContainer: {
     backgroundColor: Colors.lightPink,
@@ -85,11 +94,24 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     fontSize: 46,
     lineHeight: 48,
+    textAlign: 'center',
+  },
+  textTablet: {
+    fontSize: 30,
+    lineHeight: 38,
+  },
+  textPhone: {
+    fontSize: 26,
+    lineHeight: 32,
   },
   text1: {
     fontSize: 22,
     fontFamily: 'bold',
     lineHeight: 32,
     textAlign: 'center',
+  },
+  text1Phone: {
+    fontSize: 18,
+    lineHeight: 28,
   },
 });

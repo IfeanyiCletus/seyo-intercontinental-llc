@@ -1,71 +1,141 @@
-import React from 'react';
-import { Image, StyleSheet, Pressable, Dimensions } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import {
+  Image,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 import Colors from '../constants/Colors';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function Header(props) {
-  return (
-    <ThemedView style={styles.container}>
-      <ThemedView style={{}}>
-        <Pressable onPress={props.pressHome}>
-          <Image
-            source={require('../../assets/logo/seyo-logo-small.png')}
-            height={61}
-            width={67}
-          />
-        </Pressable>
-      </ThemedView>
+  const { width } = useWindowDimensions();
+  const [menuVisible, setMenuVisible] = useState(false);
 
-      <ThemedView style={styles.navigators}>
-        <Pressable onPress={props.pressHome}>
-          <ThemedText
-            style={[styles.text, props.selected === 'HOME' && styles.text1]}
+  const isMobile = width <= 768;
+  const isCompactMobile = width <= 430;
+
+  const navItems = useMemo(
+    () => [
+      {
+        key: 'HOME',
+        label: 'Home',
+        onPress: props.pressHome,
+      },
+      {
+        key: 'ABOUT_US',
+        label: 'About Us',
+        onPress: props.pressAboutUs,
+      },
+      {
+        key: 'WHAT_WE_OFFER',
+        label: 'What We Offer',
+        onPress: props.pressWhatWeOffer,
+      },
+      {
+        key: 'MEET_THE_TEAM',
+        label: 'Meet the Team',
+        onPress: props.pressMeetTheTeam,
+      },
+      {
+        key: 'CONTACT_US',
+        label: 'Contact Us',
+        onPress: props.pressContactUs,
+      },
+    ],
+    [
+      props.pressAboutUs,
+      props.pressContactUs,
+      props.pressHome,
+      props.pressMeetTheTeam,
+      props.pressWhatWeOffer,
+    ]
+  );
+
+  const handleNavPress = (onPress) => {
+    onPress?.();
+    if (isMobile) {
+      setMenuVisible(false);
+    }
+  };
+
+  return (
+    <ThemedView
+      style={[
+        styles.container,
+        {
+          paddingHorizontal: isMobile ? (isCompactMobile ? 16 : 24) : 20,
+        },
+      ]}
+    >
+      <Pressable onPress={() => handleNavPress(props.pressHome)}>
+        <Image
+          source={require('../../assets/logo/seyo-logo-small.png')}
+          style={styles.logo}
+        />
+      </Pressable>
+
+      {isMobile ? (
+        <ThemedView style={styles.mobileMenuWrapper}>
+          <Pressable
+            onPress={() => setMenuVisible((current) => !current)}
+            style={styles.menuButton}
+            accessibilityRole="button"
+            accessibilityLabel={menuVisible ? 'Hide menu' : 'Show menu'}
           >
-            Home
-          </ThemedText>
-        </Pressable>
-        <Pressable onPress={props.pressAboutUs}>
-          <ThemedText
-            style={[styles.text, props.selected === 'ABOUT_US' && styles.text1]}
-          >
-            About Us
-          </ThemedText>
-        </Pressable>
-        <Pressable onPress={props.pressWhatWeOffer}>
-          <ThemedText
-            style={[
-              styles.text,
-              props.selected === 'WHAT_WE_OFFER' && styles.text1,
-            ]}
-          >
-            What We Offer
-          </ThemedText>
-        </Pressable>
-        <Pressable onPress={props.pressMeetTheTeam}>
-          <ThemedText
-            style={[
-              styles.text,
-              props.selected === 'MEET_THE_TEAM' && styles.text1,
-            ]}
-          >
-            Meet the Team
-          </ThemedText>
-        </Pressable>
-        <Pressable onPress={props.pressContactUs}>
-          <ThemedText
-            style={[
-              styles.text,
-              props.selected === 'CONTACT_US' && styles.text1,
-            ]}
-          >
-            Contact Us
-          </ThemedText>
-        </Pressable>
-      </ThemedView>
-      <ThemedView></ThemedView>
+            <Ionicons name="menu-outline" size={30} color={Colors.primary} />
+          </Pressable>
+
+          {menuVisible && (
+            <ThemedView
+              style={[
+                styles.dropdown,
+                {
+                  width: isCompactMobile ? 220 : 260,
+                  top: isCompactMobile ? 52 : 56,
+                },
+              ]}
+            >
+              {navItems.map((item) => (
+                <Pressable
+                  key={item.key}
+                  onPress={() => handleNavPress(item.onPress)}
+                  style={[
+                    styles.dropdownItem,
+                    props.selected === item.key && styles.dropdownItemActive,
+                  ]}
+                >
+                  <ThemedText
+                    style={[
+                      styles.dropdownText,
+                      props.selected === item.key && styles.dropdownTextActive,
+                    ]}
+                  >
+                    {item.label}
+                  </ThemedText>
+                </Pressable>
+              ))}
+            </ThemedView>
+          )}
+        </ThemedView>
+      ) : (
+        <ThemedView style={styles.navigators}>
+          {navItems.map((item) => (
+            <Pressable key={item.key} onPress={() => handleNavPress(item.onPress)}>
+              <ThemedText
+                style={[
+                  styles.text,
+                  props.selected === item.key && styles.text1,
+                ]}
+              >
+                {item.label}
+              </ThemedText>
+            </Pressable>
+          ))}
+        </ThemedView>
+      )}
     </ThemedView>
   );
 }
@@ -73,15 +143,16 @@ export default function Header(props) {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 20,
-    marginHorizontal: 20,
+    width: '100%',
     flexDirection: 'row',
-    width: windowWidth,
     justifyContent: 'space-between',
     alignItems: 'center',
+    position: 'relative',
+    zIndex: 20,
   },
-  image: {
-    width: '100%',
-    height: '100%',
+  logo: {
+    width: 67,
+    height: 61,
   },
   navigators: {
     flexDirection: 'row',
@@ -95,7 +166,40 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 20,
-
+    color: Colors.primary,
+  },
+  mobileMenuWrapper: {
+    position: 'relative',
+    alignItems: 'flex-end',
+  },
+  menuButton: {
+    padding: 4,
+  },
+  dropdown: {
+    position: 'absolute',
+    right: 0,
+    borderRadius: 14,
+    paddingVertical: 8,
+    backgroundColor: Colors.white,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    elevation: 10,
+  },
+  dropdownItem: {
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+  },
+  dropdownItemActive: {
+    backgroundColor: '#F6F8FB',
+  },
+  dropdownText: {
+    fontFamily: 'medium',
+    fontSize: 16,
+    color: Colors.black,
+  },
+  dropdownTextActive: {
     color: Colors.primary,
   },
 });

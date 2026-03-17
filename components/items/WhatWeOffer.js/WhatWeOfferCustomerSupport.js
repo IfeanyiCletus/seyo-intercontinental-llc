@@ -2,42 +2,66 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
-  useColorScheme,
-  Pressable,
   Image,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
-import ThemedView from '../ThemedView';
 import ThemedText from '../ThemedText';
-import WhyAMMattersView from '../WhyAMMattersView';
-
-const windowWidth = Dimensions.get('window').width;
 
 export default function WhatWeOfferCustomerSupport(props) {
-  const theme = useColorScheme();
-
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const { width } = useWindowDimensions();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
 
   return (
     <ImageBackground
       source={require('../../../assets/images/screen1440/section.png')}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          width,
+          minHeight: isTablet ? undefined : 823,
+          flexDirection: isTablet ? 'column' : 'row',
+          paddingHorizontal: isPhone ? 16 : 24,
+          paddingVertical: isTablet ? 48 : 0,
+        },
+      ]}
     >
-      <View style={{ width: windowWidth / 3 }}>
-        <View style={styles.container1}>
+      <View style={{ width: isTablet ? '100%' : width / 3 }}>
+        <View
+          style={[
+            styles.container1,
+            {
+              width:
+                width > 1280
+                  ? '30%'
+                  : isTablet
+                    ? isPhone
+                      ? '40%'
+                      : '28%'
+                    : '35%',
+            },
+          ]}
+        >
           <Ionicons name="call-outline" size={22} color={Colors.white} />
           <Text style={[styles.text, { marginLeft: 10 }]}>Service 05</Text>
         </View>
-        <ThemedText style={styles.text1}>24/7 Customer Support</ThemedText>
+        <ThemedText
+          style={[
+            styles.text1,
+            isTablet && styles.text1Tablet,
+            isPhone && styles.text1Phone,
+          ]}
+        >
+          24/7 Customer Support
+        </ThemedText>
 
         <View style={styles.border}></View>
         <View style={{ marginBottom: 20 }}>
-          <Text style={styles.text5}>
+          <Text style={[styles.text5, isPhone && styles.text5Phone]}>
             We recognize that our clients operate across different time zones
             and may need assistance at any hour. Our online call center provides
             prompt, professional support whenever you need it.
@@ -47,7 +71,9 @@ export default function WhatWeOfferCustomerSupport(props) {
           <View style={styles.iconContainer}>
             <Ionicons name="globe-outline" size={28} color={Colors.neutral} />
           </View>
-          <Text style={styles.text2}>Support across all time zones</Text>
+          <Text style={[styles.text2, isPhone && styles.text2Phone]}>
+            Support across all time zones
+          </Text>
         </View>
         <View style={styles.container247}>
           <View style={styles.iconContainer}>
@@ -57,54 +83,61 @@ export default function WhatWeOfferCustomerSupport(props) {
               color={Colors.neutral}
             />
           </View>
-          <Text style={styles.text2}>Technical issue resolution</Text>
+          <Text style={[styles.text2, isPhone && styles.text2Phone]}>
+            Technical issue resolution
+          </Text>
         </View>
         <View style={styles.container247}>
           <View style={styles.iconContainer}>
             <Ionicons name="people-outline" size={28} color={Colors.neutral} />
           </View>
-          <Text style={styles.text2}>Platform guidance and training</Text>
+          <Text style={[styles.text2, isPhone && styles.text2Phone]}>
+            Platform guidance and training
+          </Text>
         </View>
         <View style={styles.container247}>
           <View style={styles.iconContainer}>
             <Ionicons name="shield-outline" size={28} color={Colors.neutral} />
           </View>
-          <Text style={styles.text2}>Security and privacy assistance</Text>
+          <Text style={[styles.text2, isPhone && styles.text2Phone]}>
+            Security and privacy assistance
+          </Text>
         </View>
         <View style={styles.container3}>
-          <Text style={styles.text2}>
+          <Text style={[styles.text2, isPhone && styles.text2Phone]}>
             <Text style={{ fontFamily: 'medium' }}>Our commitment:</Text>{' '}
             Distance and time differences never prevent clients from receiving
             the help they need.
           </Text>
         </View>
       </View>
-      <View>
-        <Image
-          source={require('../../../assets/images/screen1440/what-we-offer-customer-support.png')}
-          width={652}
-          height={676}
-          style={{ borderRadius: 20 }}
-        />
-      </View>
+      {!isPhone && !isTablet && (
+        <View style={isTablet && styles.imageWrapTablet}>
+          <Image
+            source={require('../../../assets/images/screen1440/what-we-offer-customer-support.png')}
+            style={[
+              styles.image,
+              isTablet && styles.imageTablet,
+              isPhone && styles.imagePhone,
+            ]}
+            resizeMode="contain"
+          />
+        </View>
+      )}
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth,
-    height: 973,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
   },
   container1: {
     backgroundColor: Colors.primary3,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    width: windowWidth > 1280 ? '30%' : '35%',
     alignItems: 'center',
     borderWidth: 1,
     flexDirection: 'row',
@@ -161,11 +194,23 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     color: Colors.white,
   },
+  text1Tablet: {
+    fontSize: 36,
+    lineHeight: 40,
+  },
+  text1Phone: {
+    fontSize: 30,
+    lineHeight: 34,
+  },
   text2: {
     fontSize: 14,
     fontFamily: 'light',
     color: Colors.neutral,
     marginLeft: 20,
+  },
+  text2Phone: {
+    fontSize: 13,
+    lineHeight: 20,
   },
 
   text5: {
@@ -174,11 +219,31 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     color: Colors.gray,
   },
+  text5Phone: {
+    lineHeight: 24,
+  },
 
   border: {
     width: 100,
     borderTopWidth: 4,
     borderTopColor: Colors.primary,
     marginVertical: 30,
+  },
+  imageWrapTablet: {
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  image: {
+    width: 652,
+    height: 676,
+    borderRadius: 20,
+  },
+  imageTablet: {
+    width: 500,
+    height: 518,
+  },
+  imagePhone: {
+    width: 300,
+    height: 311,
   },
 });

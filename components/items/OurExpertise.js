@@ -1,36 +1,45 @@
 import React from 'react';
 import {
-  View,
   StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
   useColorScheme,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 import ExpertiseView from './ExpertiseView';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function OurExpertise(props) {
+  const { width } = useWindowDimensions();
   const theme = useColorScheme();
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
   return (
-    <View3
+    <ThemedView
       style={[
         styles.container,
+        {
+          minHeight: isTablet ? undefined : 777,
+          paddingHorizontal: isPhone ? 16 : 24,
+          paddingVertical: isTablet ? 56 : 0,
+        },
         theme === 'light' && { backgroundColor: Colors.neutral },
       ]}
     >
-      <ThemedText style={styles.text}>OUR EXPERTISE</ThemedText>
-      <ThemedText style={styles.text1}>
+      <ThemedText style={[styles.text, isPhone && styles.textPhone]}>
+        OUR EXPERTISE
+      </ThemedText>
+      <ThemedText
+        style={[styles.text1, isTablet && styles.text1Tablet, isPhone && styles.text1Phone]}
+      >
         Comprehensive Business Services
       </ThemedText>
-      <View3 style={styles.container1}>
+      <ThemedView
+        style={[
+          styles.container1,
+          isTablet && styles.container1Tablet,
+        ]}
+      >
         <ExpertiseView
           icon={'bag-add-outline'}
           text={'Business Clinic'}
@@ -63,20 +72,24 @@ export default function OurExpertise(props) {
           text3={'Certifications'}
           onPress={() => {}}
         />
-      </View3>
-    </View3>
+      </ThemedView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: 777,
     justifyContent: 'center',
     alignItems: 'center',
   },
   container1: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    maxWidth: 1400,
+  },
+  container1Tablet: {
+    justifyContent: 'center',
   },
   text: {
     fontFamily: 'bold',
@@ -86,9 +99,20 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontFamily: 'extraBold',
-
     fontSize: 40,
     marginBottom: 40,
     lineHeight: 44,
+    textAlign: 'center',
+  },
+  text1Tablet: {
+    fontSize: 32,
+    lineHeight: 38,
+  },
+  text1Phone: {
+    fontSize: 26,
+    lineHeight: 32,
+  },
+  textPhone: {
+    fontSize: 14,
   },
 });

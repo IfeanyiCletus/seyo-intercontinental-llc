@@ -20,7 +20,9 @@ export default function OfficeView(props) {
   return (
     <View style={[styles.container, props.borderWidth && { borderWidth: 2 }]}>
       <Ionicons name="location" size={30} color={Colors.primary} />
-      <View style={{ marginLeft: 10 }}>
+      <View
+        style={[{ marginLeft: 10 }, windowWidth <= 430 && { width: '80%' }]}
+      >
         <ThemedText style={styles.text}>{props.text1}</ThemedText>
         <ThemedText style={styles.text1}>{props.text2}</ThemedText>
       </View>

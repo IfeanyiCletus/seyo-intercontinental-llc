@@ -2,37 +2,51 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   ImageBackground,
   Text,
-  useColorScheme,
-  Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
-import ThemedView from '../ThemedView';
-import ThemedText from '../ThemedText';
 
 import WhatDrivesUsView from '../WhatDrivesUsView';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function AboutUsWhatDrivesUs(props) {
-  const theme = useColorScheme();
-
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const { width } = useWindowDimensions();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
 
   return (
     <ImageBackground
       source={require('../../../assets/images/screen1440/section.png')}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          width,
+          minHeight: isTablet ? undefined : 973,
+          paddingHorizontal: isPhone ? 16 : 24,
+          paddingVertical: isTablet ? 56 : 0,
+          justifyContent: isTablet ? 'flex-start' : 'center',
+        },
+      ]}
     >
       <View>
-        <Text style={styles.text1}>What Drives Us</Text>
+        <Text
+          style={[
+            styles.text1,
+            isTablet && styles.text1Tablet,
+            isPhone && styles.text1Phone,
+          ]}
+        >
+          What Drives Us
+        </Text>
       </View>
-      <View style={styles.container1}></View>
-      <View style={{ flexDirection: 'row' }}>
+      <View
+        style={[
+          styles.container1,
+          isPhone && { marginTop: 10, marginBottom: 10 },
+        ]}
+      ></View>
+      <View style={styles.cardsRow}>
         <WhatDrivesUsView
           icon={'globe-outline'}
           text={'Global Reach'}
@@ -61,8 +75,6 @@ export default function AboutUsWhatDrivesUs(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth,
-    height: 973,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -79,5 +91,18 @@ const styles = StyleSheet.create({
     lineHeight: 65,
     color: Colors.white,
     textAlign: 'center',
+  },
+  text1Tablet: {
+    fontSize: 42,
+    lineHeight: 50,
+  },
+  text1Phone: {
+    fontSize: 30,
+    lineHeight: 38,
+  },
+  cardsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
 });

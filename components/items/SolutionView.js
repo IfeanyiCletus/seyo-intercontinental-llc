@@ -1,27 +1,20 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-  Text,
-  useColorScheme,
-  Pressable,
-} from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
 import ThemedText from './ThemedText';
 
-const windowWidth = Dimensions.get('window').width;
-
 export default function SolutionView(props) {
-  const theme = useColorScheme();
+  const { width } = useWindowDimensions();
+  const isPhone = width <= 430;
 
   return (
     <ThemedView style={styles.container}>
       <Ionicons name={props.icon} color={Colors.primary} size={24} />
-      <ThemedText style={styles.text}>{props.text}</ThemedText>
+      <ThemedText style={[styles.text, isPhone && styles.textPhone]}>
+        {props.text}
+      </ThemedText>
     </ThemedView>
   );
 }
@@ -33,6 +26,11 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginLeft: 20,
     color: Colors.black,
+    flexShrink: 1,
+  },
+  textPhone: {
+    fontSize: 13,
+    lineHeight: 20,
   },
   container: {
     flexDirection: 'row',

@@ -2,51 +2,53 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
-  ImageBackground,
   Text,
-  useColorScheme,
   Pressable,
-  Image,
+  useWindowDimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
-import ThemedView from '../ThemedView';
 import ThemedText from '../ThemedText';
-import WhyAMMattersView from '../WhyAMMattersView';
-
-const windowWidth = Dimensions.get('window').width;
 
 export default function WhatWeOfferRevenueModel(props) {
-  const theme = useColorScheme();
-
-  let View2 = theme === 'dark' ? ThemedView : ImageBackground;
-  let View3 = theme === 'dark' ? ThemedView : View;
+  const { width } = useWindowDimensions();
+  const isTablet = width <= 768;
+  const isPhone = width <= 430;
 
   return (
-    <ThemedView style={{ width: windowWidth, alignItems: 'center' }}>
-      <ThemedView style={{ marginTop: 50 }}>
-        <ThemedText style={styles.text1}>Transparent Revenue Model</ThemedText>
-      </ThemedView>
-      <View style={styles.border}></View>
-      <ThemedView style={styles.container1}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
-            marginBottom: 20,
-          }}
+    <View
+      style={{
+        width,
+        alignItems: 'center',
+        paddingHorizontal: isPhone ? 16 : 24,
+      }}
+    >
+      <View
+        style={[{ marginTop: 50 }, (isPhone || isTablet) && { marginTop: 100 }]}
+      >
+        <ThemedText
+          style={[
+            styles.text1,
+            isTablet && styles.text1Tablet,
+            isPhone && styles.text1Phone,
+          ]}
         >
-          <ThemedView style={styles.container2}>
-            <ThemedView style={{ width: '100%', padding: 20 }}>
-              <ThemedView style={styles.container3}>
+          Transparent Revenue Model
+        </ThemedText>
+      </View>
+      <View style={styles.border}></View>
+      <View style={[styles.container1, { width: isTablet ? '100%' : '50%' }]}>
+        <View style={styles.topCardsRow}>
+          <View
+            style={[styles.container2, isTablet && styles.container2Tablet]}
+          >
+            <View style={{ width: '100%', padding: 20 }}>
+              <View style={styles.container3}>
                 <ThemedText
-                  style={{
-                    fontSize: 30,
-                    fontFamily: 'bold',
-                    color: Colors.primary,
-                  }}
+                  style={[
+                    styles.percentText,
+                    isPhone && styles.percentTextPhone,
+                  ]}
                 >
                   70%
                 </ThemedText>
@@ -55,25 +57,26 @@ export default function WhatWeOfferRevenueModel(props) {
                   color={Colors.primary}
                   size={32}
                 />
-              </ThemedView>
-              <ThemedText style={styles.text2}>
+              </View>
+              <ThemedText style={[styles.text2, isPhone && styles.text2Phone]}>
                 To Mentors/Counsellors
               </ThemedText>
-              <ThemedText style={styles.text3}>
+              <ThemedText style={[styles.text3, isPhone && styles.text3Phone]}>
                 Fair compensation for expertise and time invested in client
                 success.
               </ThemedText>
-            </ThemedView>
-          </ThemedView>
-          <ThemedView style={styles.container2}>
-            <ThemedView style={{ width: '100%', padding: 20 }}>
-              <ThemedView style={styles.container3}>
+            </View>
+          </View>
+          <View
+            style={[styles.container2, isTablet && styles.container2Tablet]}
+          >
+            <View style={{ width: '100%', padding: 20 }}>
+              <View style={styles.container3}>
                 <ThemedText
-                  style={{
-                    fontSize: 30,
-                    fontFamily: 'bold',
-                    color: Colors.primary,
-                  }}
+                  style={[
+                    styles.percentText,
+                    isPhone && styles.percentTextPhone,
+                  ]}
                 >
                   30%
                 </ThemedText>
@@ -82,38 +85,40 @@ export default function WhatWeOfferRevenueModel(props) {
                   color={Colors.primary}
                   size={32}
                 />
-              </ThemedView>
-              <ThemedText style={styles.text2}>Platform Operations</ThemedText>
-              <ThemedText style={styles.text3}>
+              </View>
+              <ThemedText style={[styles.text2, isPhone && styles.text2Phone]}>
+                Platform Operations
+              </ThemedText>
+              <ThemedText style={[styles.text3, isPhone && styles.text3Phone]}>
                 Administrative costs, taxes, personnel salaries, and
                 maintenance.
               </ThemedText>
-            </ThemedView>
-          </ThemedView>
+            </View>
+          </View>
         </View>
-        <ThemedView style={styles.container4}>
-          <ThemedView style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={styles.container4}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Ionicons name="shield-outline" color={Colors.primary} size={32} />
-            <ThemedText style={styles.text4}>
+            <ThemedText style={[styles.text4, isPhone && styles.text4Phone]}>
               Secure Payment Processing
             </ThemedText>
-          </ThemedView>
-          <ThemedView style={{ width: '100%' }}>
-            <ThemedText style={styles.text3}>
+          </View>
+          <View style={{ width: '100%' }}>
+            <ThemedText style={[styles.text3, isPhone && styles.text3Phone]}>
               Payment is processed before sessions begin, providing security for
               both parties. Each mentor can track their performance, earnings,
               and client feedback through a personal dashboard with complete
               transparency.
             </ThemedText>
-          </ThemedView>
-        </ThemedView>
-      </ThemedView>
-      <ThemedView style={styles.container5}>
-        <Text style={{ fontSize: 46, fontFamily: 'bold', color: Colors.black }}>
+          </View>
+        </View>
+      </View>
+      <View style={[styles.container5, { width }]}>
+        <Text style={[styles.ctaTitle, isPhone && styles.ctaTitlePhone]}>
           Ready to Get Started?
         </Text>
-        <View style={{ width: '40%', marginBottom: 40 }}>
-          <Text style={styles.text5}>
+        <View style={{ width: isTablet ? '100%' : '40%', marginBottom: 40 }}>
+          <Text style={[styles.text5, isPhone && styles.text5Phone]}>
             Whether you need business guidance, counselling support, or want to
             become a mentor, we're here to help.
           </Text>
@@ -122,23 +127,14 @@ export default function WhatWeOfferRevenueModel(props) {
         <Pressable style={styles.container6}>
           <Text style={styles.buttonText}>Book your first session</Text>
         </Pressable>
-      </ThemedView>
-    </ThemedView>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: windowWidth,
-    height: 973,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-
   container1: {
     backgroundColor: Colors.lightBlue,
-    width: '50%',
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
@@ -156,6 +152,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     marginHorizontal: 10,
+  },
+  container2Tablet: {
+    width: '100%',
+    marginHorizontal: 0,
+    marginBottom: 16,
   },
   container3: {
     flexDirection: 'row',
@@ -178,7 +179,6 @@ const styles = StyleSheet.create({
   },
   container5: {
     backgroundColor: Colors.lightBlue,
-    width: windowWidth,
     height: 412,
     justifyContent: 'center',
     alignItems: 'center',
@@ -200,26 +200,50 @@ const styles = StyleSheet.create({
     fontSize: 45,
     lineHeight: 45,
   },
+  text1Tablet: {
+    fontSize: 36,
+    lineHeight: 40,
+  },
+  text1Phone: {
+    fontSize: 30,
+    lineHeight: 34,
+    textAlign: 'center',
+  },
   text2: {
     fontSize: 16,
     fontFamily: 'medium',
     lineHeight: 24,
+  },
+  text2Phone: {
+    fontSize: 14,
+    lineHeight: 22,
   },
   text3: {
     fontFamily: 'light',
     fontSize: 14,
     marginVertical: 20,
   },
+  text3Phone: {
+    lineHeight: 20,
+  },
   text4: {
     fontSize: 16,
     fontFamily: 'medium',
     marginLeft: 20,
+  },
+  text4Phone: {
+    fontSize: 14,
+    marginLeft: 12,
   },
   text5: {
     fontFamily: 'light',
     fontSize: 18,
     lineHeight: 28,
     textAlign: 'center',
+  },
+  text5Phone: {
+    fontSize: 16,
+    lineHeight: 24,
   },
   border: {
     width: 100,
@@ -233,5 +257,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.white05,
     textAlign: 'center',
+  },
+  topCardsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginBottom: 20,
+    flexWrap: 'wrap',
+    width: '100%',
+  },
+  percentText: {
+    fontSize: 30,
+    fontFamily: 'bold',
+    color: Colors.primary,
+  },
+  percentTextPhone: {
+    fontSize: 24,
+  },
+  ctaTitle: {
+    fontSize: 46,
+    fontFamily: 'bold',
+    color: Colors.black,
+    textAlign: 'center',
+  },
+  ctaTitlePhone: {
+    fontSize: 30,
+    lineHeight: 34,
   },
 });
