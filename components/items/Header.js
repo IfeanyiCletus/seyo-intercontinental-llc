@@ -51,7 +51,7 @@ export default function Header(props) {
       props.pressHome,
       props.pressMeetTheTeam,
       props.pressWhatWeOffer,
-    ]
+    ],
   );
 
   const handleNavPress = (onPress) => {
@@ -66,7 +66,7 @@ export default function Header(props) {
       style={[
         styles.container,
         {
-          paddingHorizontal: isMobile ? (isCompactMobile ? 16 : 24) : 20,
+          paddingHorizontal: isMobile ? (isCompactMobile ? 16 : 24) : 40,
         },
       ]}
     >
@@ -123,7 +123,10 @@ export default function Header(props) {
       ) : (
         <ThemedView style={styles.navigators}>
           {navItems.map((item) => (
-            <Pressable key={item.key} onPress={() => handleNavPress(item.onPress)}>
+            <Pressable
+              key={item.key}
+              onPress={() => handleNavPress(item.onPress)}
+            >
               <ThemedText
                 style={[
                   styles.text,

@@ -11,9 +11,7 @@ import Colors from '../constants/Colors';
 
 const ThemedText = (props) => {
   const colorScheme = useColorScheme();
-  // const color = colorScheme === 'light' ? lightColor :
 
-  //   useThemeColor({ light: lightColor, dark: darkColor }, 'text');
   return (
     <View>
       <Text

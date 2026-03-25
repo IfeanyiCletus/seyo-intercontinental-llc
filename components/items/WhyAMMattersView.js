@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  useColorScheme,
-  useWindowDimensions,
-} from 'react-native';
+import { StyleSheet, useColorScheme, useWindowDimensions } from 'react-native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedView from './ThemedView';
@@ -63,8 +59,9 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   textPhone: {
-    fontSize: 13,
+    fontSize: 12,
     lineHeight: 20,
+    fontFamily: 'medium',
   },
   dark: {
     borderWidth: 1,
