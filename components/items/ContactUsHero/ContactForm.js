@@ -23,9 +23,91 @@ export default function ContactForm(props) {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({
+    type: '',
+    message: '',
+  });
+
+  const formEndpoint = process.env.EXPO_PUBLIC_CONTACT_FORM_ENDPOINT;
+  const isEmailValid =
+    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email);
+  const isFormValid =
+    name.trim().length > 3 &&
+    isEmailValid &&
+    subject.trim().length > 5 &&
+    message.trim().length > 30;
 
   let View2 = theme === 'dark' ? ThemedView : ImageBackground;
   let View3 = theme === 'dark' ? ThemedView : View;
+
+  const resetForm = () => {
+    setName('');
+    setEmail('');
+    setSubject('');
+    setMessage('');
+  };
+
+  const handleSubmit = async () => {
+    if (!isFormValid || isSubmitting) {
+      return;
+    }
+
+    if (!formEndpoint) {
+      setSubmitStatus({
+        type: 'error',
+        message:
+          'Missing contact form endpoint. Set EXPO_PUBLIC_CONTACT_FORM_ENDPOINT and restart the app.',
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus({
+      type: '',
+      message: '',
+    });
+
+    try {
+      const response = await fetch(formEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          subject: subject.trim(),
+          message: message.trim(),
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          data?.errors?.[0]?.message ||
+            data?.message ||
+            'We could not send your message. Please try again.'
+        );
+      }
+
+      resetForm();
+      setSubmitStatus({
+        type: 'success',
+        message: 'Your message has been sent successfully.',
+      });
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message:
+          error?.message || 'We could not send your message. Please try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <View2
@@ -75,11 +157,9 @@ export default function ContactForm(props) {
               style={styles.textInputLight}
               maxLength={30}
             />
-            {name.length > 1 && name.length < 2 && (
+            {name.length > 0 && name.length < 2 && (
               <View>
-                <Text style={styles.text3}>
-                  Subject must be at least 2 characters
-                </Text>
+                <Text style={styles.text3}>Name must be at least 2 characters</Text>
               </View>
             )}
           </View>
@@ -93,12 +173,11 @@ export default function ContactForm(props) {
               style={styles.textInputLight}
               maxLength={50}
             />
-            {!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) &&
-              email.length > 3 && (
-                <View>
-                  <Text style={styles.text3}>Invalid Email</Text>
-                </View>
-              )}
+            {!isEmailValid && email.length > 3 && (
+              <View>
+                <Text style={styles.text3}>Invalid Email</Text>
+              </View>
+            )}
           </View>
           <View style={styles.textInputContainer}>
             <Text style={styles.text2}>Subject</Text>
@@ -131,31 +210,45 @@ export default function ContactForm(props) {
             />
             {message.length > 1 && message.length < 30 && (
               <View>
-                <Text style={styles.text3}>
-                  Subject must be at least 30 characters
-                </Text>
+                <Text style={styles.text3}>Message must be at least 30 characters</Text>
               </View>
             )}
           </View>
           <View style={{ alignSelf: 'flex-end' }}>
             <Text style={styles.text1}>{`${message.length}/300`}</Text>
           </View>
-          {name.length > 3 &&
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email) &&
-            subject.length > 5 &&
-            message.length > 30 && (
-              <Pressable style={styles.buttonContainer}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: 'medium',
-                    color: Colors.white,
-                  }}
-                >
-                  Submit
-                </Text>
-              </Pressable>
-            )}
+          {submitStatus.message ? (
+            <Text
+              style={[
+                styles.submitMessage,
+                submitStatus.type === 'error'
+                  ? styles.submitMessageError
+                  : styles.submitMessageSuccess,
+              ]}
+            >
+              {submitStatus.message}
+            </Text>
+          ) : null}
+          {isFormValid && (
+            <Pressable
+              style={[
+                styles.buttonContainer,
+                isSubmitting && styles.buttonContainerDisabled,
+              ]}
+              onPress={handleSubmit}
+              disabled={isSubmitting}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: 'medium',
+                  color: Colors.white,
+                }}
+              >
+                {isSubmitting ? 'Sending...' : 'Submit'}
+              </Text>
+            </Pressable>
+          )}
         </View>
       </View3>
       <View3
@@ -397,6 +490,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
     marginBottom: 20,
+  },
+  buttonContainerDisabled: {
+    opacity: 0.7,
+  },
+  submitMessage: {
+    marginTop: 12,
+    marginBottom: 4,
+    fontSize: 13,
+    lineHeight: 20,
+    fontFamily: 'medium',
+  },
+  submitMessageError: {
+    color: Colors.red,
+  },
+  submitMessageSuccess: {
+    color: Colors.green,
   },
   border: {
     borderTopColor: Colors.primary,
